@@ -1,0 +1,10 @@
+{
+    "type": "code",
+    "modid": "ExampleMod",
+    "name": "ExampleMod",
+    "authors": [
+        "Nes0x"
+    ],
+    "description": "A example mod",
+    "version": "1.0.0"
+}

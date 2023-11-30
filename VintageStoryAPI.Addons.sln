@@ -1,0 +1,28 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CakeBuild", "ExampleMod\CakeBuild\CakeBuild.csproj", "{5B6F55D3-B069-48D2-9AD9-2BE445A31C1F}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ExampleMod", "ExampleMod\ExampleMod\ExampleMod.csproj", "{24BF3B39-1BA3-4D92-8F87-38EEB017A2F4}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "VintageStoryAPI.Addons.CommandHandler", "VintageStoryAPI.Addons.CommandHandler\VintageStoryAPI.Addons.CommandHandler.csproj", "{0BB0BF94-46D9-4EDB-90D3-552B6A134496}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{5B6F55D3-B069-48D2-9AD9-2BE445A31C1F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{5B6F55D3-B069-48D2-9AD9-2BE445A31C1F}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{5B6F55D3-B069-48D2-9AD9-2BE445A31C1F}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{5B6F55D3-B069-48D2-9AD9-2BE445A31C1F}.Release|Any CPU.Build.0 = Release|Any CPU
+		{24BF3B39-1BA3-4D92-8F87-38EEB017A2F4}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{24BF3B39-1BA3-4D92-8F87-38EEB017A2F4}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{24BF3B39-1BA3-4D92-8F87-38EEB017A2F4}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{24BF3B39-1BA3-4D92-8F87-38EEB017A2F4}.Release|Any CPU.Build.0 = Release|Any CPU
+		{0BB0BF94-46D9-4EDB-90D3-552B6A134496}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{0BB0BF94-46D9-4EDB-90D3-552B6A134496}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{0BB0BF94-46D9-4EDB-90D3-552B6A134496}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{0BB0BF94-46D9-4EDB-90D3-552B6A134496}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+EndGlobal
