@@ -71,7 +71,7 @@ public static class ChatCommandExtensions
     }
 
     /// <summary>
-    ///     Define command arguments, you'd usually want to use one of the parsers supplied from from capi.ChatCommands.Parsers
+    ///     Define command arguments, you'd usually want to use one of the parsers supplied from from api.ChatCommands.Parsers
     /// </summary>
     /// <param name="chatCommand"></param>
     /// <param name="args"></param>

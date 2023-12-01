@@ -1,7 +1,6 @@
 ﻿namespace VintageStoryAPI.Addons.CommandHandler.Common;
 
 [AttributeUsage(AttributeTargets.Property)]
-public class ArgsParserAttribute : Attribute
+internal class RequiredParameterAttribute : Attribute
 {
-    
 }

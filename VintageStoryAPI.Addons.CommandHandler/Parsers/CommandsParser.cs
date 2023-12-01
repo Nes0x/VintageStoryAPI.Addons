@@ -7,26 +7,26 @@ namespace VintageStoryAPI.Addons.CommandHandler.Parsers;
 
 internal class CommandsParser<T> : ICommandsParser<T> where T : ICoreAPI
 {
-    private readonly IArgumentsParser<T> _argumentsParser;
+    private readonly ICommandParametersParser<T> _commandParametersParser;
 
-    public CommandsParser(IArgumentsParser<T> argumentsParser)
+    public CommandsParser(ICommandParametersParser<T> commandParametersParser)
     {
-        _argumentsParser = argumentsParser;
+        _commandParametersParser = commandParametersParser;
     }
 
     public IEnumerable<Command<T>> GetCommandsFromAssembly(Assembly assembly)
     {
-        var targetType = typeof(CommandModule);
-        var types = assembly.GetTypes().Where(type =>
-            type.IsAssignableTo(targetType) && !type.IsAbstract);
-        var methods = types.SelectMany(type =>
-            type.GetMethods().Where(method => method.GetCustomAttribute(typeof(CommandAttribute<T>), true) is not null));
-        var commands = methods.Select(method =>
+        var commandModules = assembly.GetTypes().Where(type =>
+            type.IsAssignableTo(typeof(CommandModule)) && !type.IsAbstract);
+        var commandMethods = commandModules.SelectMany(type =>
+            type.GetMethods()
+                .Where(method => method.GetCustomAttribute(typeof(CommandAttribute<T>), true) is not null));
+        var commands = commandMethods.Select(method =>
         {
             var attribute = method.GetCustomAttribute<CommandAttribute<T>>()!;
             var methodParameters = method.GetParameters().Where(parameter =>
                 parameter.GetCustomAttribute(typeof(CommandParameterAttribute), true) is not null).AsEnumerable();
-            var commandArguments = _argumentsParser.GetArgumentsFromParameters(methodParameters);
+            var commandParameters = _commandParametersParser.GetCommandParametersFromParameters(methodParameters.Where(methodParameter => !methodParameter.ParameterType.IsAssignableTo(typeof(ICoreAPI))));
             return new Command<T>(attribute.Name, method, method.DeclaringType!)
             {
                 Description = attribute.Description,
@@ -36,7 +36,7 @@ internal class CommandsParser<T> : ICommandsParser<T> where T : ICoreAPI
                 RootAlias = attribute.RootAlias,
                 Privilege = attribute.Privilege,
                 RequiredPlayer = attribute._requiredPlayer,
-                CommandArguments = commandArguments.ToArray()
+                CommandParameters = commandParameters.ToArray()
             };
         });
         return commands;

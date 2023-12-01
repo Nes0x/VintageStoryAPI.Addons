@@ -18,7 +18,7 @@ internal class Command<T> where T : ICoreAPI
     public string? Description { get; init; }
     public string[]? Examples { get; init; }
     public string[]? Aliases { get; init; }
-    public ICommandArgumentParser[]? CommandArguments { get; init; }
+    public ICommandArgumentParser[]? CommandParameters { get; init; }
     public string? RootAlias { get; init; }
     public string? AdditionalInformation { get; init; }
     public MethodInfo? PreConditionMethod { get; init; }

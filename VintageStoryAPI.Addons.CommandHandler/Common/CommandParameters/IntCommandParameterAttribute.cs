@@ -10,8 +10,8 @@ public class IntCommandParameterAttribute : CommandParameterAttribute, IOptional
     }
 
     public override string Name { get; }
-    [OptionalArgsParser] public int DefaultValue { get; }
-    public string OptionalMethodName => "OptionalInt";
+    [OptionalParameter] public int DefaultValue { get; }
     public override string MethodName => "Int";
+    public string OptionalMethodName => "OptionalInt";
     public bool IsOptional { get; }
 }

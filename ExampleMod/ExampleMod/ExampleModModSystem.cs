@@ -1,7 +1,9 @@
-﻿using ExampleMod.Creators;
+﻿using System;
+using ExampleMod.Creators;
 using Microsoft.Extensions.DependencyInjection;
 using Vintagestory.API.Client;
 using Vintagestory.API.Common;
+using Vintagestory.API.Server;
 using VintageStoryAPI.Addons.CommandHandler;
 using VintageStoryAPI.Addons.CommandHandler.Common;
 
@@ -9,21 +11,16 @@ namespace ExampleMod;
 
 public class ExampleModModSystem : ModSystem
 {
-    private IServiceCollection _collection;
-    private ICoreAPI _coreApi;
-    
-    public override bool ShouldLoad(EnumAppSide forSide) => forSide == EnumAppSide.Client;
-
     public override void StartClientSide(ICoreClientAPI api)
     {
-        var commandHandler = new CommandHandler<ICoreClientAPI>(api, _coreApi, _collection.BuildServiceProvider());
+        var commandHandler = new CommandHandler<ICoreClientAPI>(api);
         commandHandler.RegisterCommands();
     }
 
-    public override void StartPre(ICoreAPI api)
+    public override void StartServerSide(ICoreServerAPI api)
     {
-        _coreApi = api;
-        _collection = new ServiceCollection();
-        _collection.AddSingleton<MessageCreator>();
+        var commandHandler = new CommandHandler<ICoreServerAPI>(api);
+        commandHandler.RegisterCommands();
     }
+
 }

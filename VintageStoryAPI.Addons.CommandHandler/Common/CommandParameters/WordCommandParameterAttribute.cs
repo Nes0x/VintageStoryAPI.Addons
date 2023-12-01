@@ -9,9 +9,8 @@ public class WordCommandParameterAttribute : CommandParameterAttribute, IOptiona
         IsOptional = isOptional;
     }
 
-    
     public override string Name { get; }
-    [ArgsParser] public string[]? Suggestions { get; }
+    [RequiredParameter] public string[]? Suggestions { get; }
     public override string MethodName => "Word";
     public string OptionalMethodName => "OptionalWord";
     public bool IsOptional { get; }
