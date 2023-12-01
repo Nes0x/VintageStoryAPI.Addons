@@ -1,7 +1,9 @@
-﻿namespace VintageStoryAPI.Addons.CommandHandler.Common;
+﻿using Vintagestory.API.Common;
+
+namespace VintageStoryAPI.Addons.CommandHandler.Common;
 
 [AttributeUsage(AttributeTargets.Method)]
-public class CommandAttribute : Attribute
+public class CommandAttribute<T> : Attribute where T : ICoreAPI
 {
     internal bool? _requiredPlayer;
 

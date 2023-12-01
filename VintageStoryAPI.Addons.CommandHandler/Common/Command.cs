@@ -3,7 +3,7 @@ using Vintagestory.API.Common;
 
 namespace VintageStoryAPI.Addons.CommandHandler.Common;
 
-internal class Command
+internal class Command<T> where T : ICoreAPI
 {
     public Command(string name, MethodInfo commandMethod, Type type)
     {
@@ -12,9 +12,9 @@ internal class Command
         Type = type;
     }
 
-    public string Name { get; init; }
-    public MethodInfo CommandMethod { get; init; }
-    public Type Type { get; init; }
+    public string Name { get; }
+    public MethodInfo CommandMethod { get; }
+    public Type Type { get; }
     public string? Description { get; init; }
     public string[]? Examples { get; init; }
     public string[]? Aliases { get; init; }

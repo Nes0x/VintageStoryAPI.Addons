@@ -1,21 +1,33 @@
 ﻿using System.Reflection;
-using Vintagestory.API.Client;
 using Vintagestory.API.Common;
+using VintageStoryAPI.Addons.CommandHandler.Common;
 using VintageStoryAPI.Addons.CommandHandler.Creators;
+using VintageStoryAPI.Addons.CommandHandler.Extensions;
 using VintageStoryAPI.Addons.CommandHandler.Parsers;
 
-namespace VintageStoryAPI.Addons.CommandHandler.Extensions;
+namespace VintageStoryAPI.Addons.CommandHandler;
 
-public static class ApiExtensions
+public class CommandHandler<T> : ICommandHandler<T> where T : ICoreAPI
 {
-    public static ICoreClientAPI RegisterCommands(this ICoreClientAPI api, ICoreAPI coreApi,
-        IServiceProvider? provider = null)
+    private readonly T _api;
+    private readonly ICoreAPI _coreApi;
+    private readonly IServiceProvider? _provider;
+
+    public CommandHandler(T api, ICoreAPI coreApi, IServiceProvider? provider = null)
     {
-        ICommandsParser commandsParser = new CommandsParser(new ArgumentsParser(new CommandArgumentParsers(coreApi)));
-        IInstancesCreator instancesCreator = new InstancesCreator();
-        var commands = commandsParser.GetCommandsFromAssembly(Assembly.GetCallingAssembly());
+        _api = api;
+        _coreApi = coreApi;
+        _provider = provider;
+    }
+
+    public void RegisterCommands()
+    {
+        ICommandsParser<T> commandsParser = new CommandsParser<T>(new ArgumentsParser<T>(new CommandArgumentParsers(_coreApi)));
+        IInstancesCreator instancesCreator = new InstancesCreator(_provider);
+        var commands = commandsParser.GetCommandsFromAssembly(Assembly.GetCallingAssembly()).Where(command => command.GetType().GenericTypeArguments.First() == typeof(T));
         foreach (var command in commands)
-            api.ChatCommands
+        {
+            _api.ChatCommands
                 .Create(command.Name)
                 .WithNullableDescription(command.Description)
                 .WithNullableAlias(command.Aliases)
@@ -28,7 +40,7 @@ public static class ApiExtensions
                 .HandleWith(args =>
                 {
                     var type = command.Type;
-                    var instance = instancesCreator.CreateInstance(command.Type, provider);
+                    var instance = instancesCreator.CreateInstance(command.Type);
                     var parameters = args.Parsers.Select(parser => parser.GetValue());
                     type.GetProperty("Context")!.SetValue(instance, args);
                     try
@@ -40,6 +52,7 @@ public static class ApiExtensions
                         return TextCommandResult.Error($"Error: {e.Message}");
                     }
                 });
-        return api;
+        }
+
     }
 }

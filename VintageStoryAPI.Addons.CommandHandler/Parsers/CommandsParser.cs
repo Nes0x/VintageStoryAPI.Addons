@@ -1,32 +1,33 @@
 ﻿using System.Reflection;
+using Vintagestory.API.Common;
 using VintageStoryAPI.Addons.CommandHandler.Common;
-using VintageStoryAPI.Addons.CommandHandler.Parsers.CommandParameters;
+using VintageStoryAPI.Addons.CommandHandler.Common.CommandParameters;
 
 namespace VintageStoryAPI.Addons.CommandHandler.Parsers;
 
-internal class CommandsParser : ICommandsParser
+internal class CommandsParser<T> : ICommandsParser<T> where T : ICoreAPI
 {
-    private readonly IArgumentsParser _argumentsParser;
+    private readonly IArgumentsParser<T> _argumentsParser;
 
-    public CommandsParser(IArgumentsParser argumentsParser)
+    public CommandsParser(IArgumentsParser<T> argumentsParser)
     {
         _argumentsParser = argumentsParser;
     }
 
-    public IEnumerable<Command> GetCommandsFromAssembly(Assembly assembly)
+    public IEnumerable<Command<T>> GetCommandsFromAssembly(Assembly assembly)
     {
         var targetType = typeof(CommandModule);
         var types = assembly.GetTypes().Where(type =>
             type.IsAssignableTo(targetType) && !type.IsAbstract);
         var methods = types.SelectMany(type =>
-            type.GetMethods().Where(method => method.GetCustomAttribute(typeof(CommandAttribute), true) is not null));
+            type.GetMethods().Where(method => method.GetCustomAttribute(typeof(CommandAttribute<T>), true) is not null));
         var commands = methods.Select(method =>
         {
-            var attribute = method.GetCustomAttribute<CommandAttribute>()!;
+            var attribute = method.GetCustomAttribute<CommandAttribute<T>>()!;
             var methodParameters = method.GetParameters().Where(parameter =>
                 parameter.GetCustomAttribute(typeof(CommandParameterAttribute), true) is not null).AsEnumerable();
             var commandArguments = _argumentsParser.GetArgumentsFromParameters(methodParameters);
-            return new Command(attribute.Name, method, method.DeclaringType!)
+            return new Command<T>(attribute.Name, method, method.DeclaringType!)
             {
                 Description = attribute.Description,
                 Aliases = attribute.Aliases,
@@ -35,7 +36,6 @@ internal class CommandsParser : ICommandsParser
                 RootAlias = attribute.RootAlias,
                 Privilege = attribute.Privilege,
                 RequiredPlayer = attribute._requiredPlayer,
-                CommandMethod = method,
                 CommandArguments = commandArguments.ToArray()
             };
         });

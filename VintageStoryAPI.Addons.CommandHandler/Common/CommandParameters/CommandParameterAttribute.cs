@@ -1,6 +1,4 @@
-﻿using VintageStoryAPI.Addons.CommandHandler.Common;
-
-namespace VintageStoryAPI.Addons.CommandHandler.Parsers.CommandParameters;
+﻿namespace VintageStoryAPI.Addons.CommandHandler.Common.CommandParameters;
 
 [AttributeUsage(AttributeTargets.Parameter)]
 public abstract class CommandParameterAttribute : Attribute

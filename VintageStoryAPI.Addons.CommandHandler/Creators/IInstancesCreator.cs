@@ -2,5 +2,5 @@
 
 internal interface IInstancesCreator
 {
-    object? CreateInstance(Type type, IServiceProvider? provider);
+    object? CreateInstance(Type type);
 }

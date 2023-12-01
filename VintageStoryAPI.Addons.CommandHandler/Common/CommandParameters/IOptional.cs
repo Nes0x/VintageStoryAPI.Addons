@@ -1,4 +1,4 @@
-﻿namespace VintageStoryAPI.Addons.CommandHandler.Parsers.CommandParameters;
+﻿namespace VintageStoryAPI.Addons.CommandHandler.Common.CommandParameters;
 
 public interface IOptional
 {

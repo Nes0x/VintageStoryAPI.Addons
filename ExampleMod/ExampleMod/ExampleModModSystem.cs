@@ -3,7 +3,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Vintagestory.API.Client;
 using Vintagestory.API.Common;
 using VintageStoryAPI.Addons.CommandHandler;
-using VintageStoryAPI.Addons.CommandHandler.Extensions;
+using VintageStoryAPI.Addons.CommandHandler.Common;
 
 namespace ExampleMod;
 
@@ -16,13 +16,14 @@ public class ExampleModModSystem : ModSystem
 
     public override void StartClientSide(ICoreClientAPI api)
     {
-        api.RegisterCommands(_coreApi, _collection.BuildServiceProvider());
+        var commandHandler = new CommandHandler<ICoreClientAPI>(api, _coreApi, _collection.BuildServiceProvider());
+        commandHandler.RegisterCommands();
     }
 
     public override void StartPre(ICoreAPI api)
     {
         _coreApi = api;
         _collection = new ServiceCollection();
-        _collection.AddTransient<MessageCreator>();
+        _collection.AddSingleton<MessageCreator>();
     }
 }

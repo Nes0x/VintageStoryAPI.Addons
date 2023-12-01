@@ -1,11 +1,11 @@
 ﻿using System.Reflection;
 using Vintagestory.API.Common;
 using VintageStoryAPI.Addons.CommandHandler.Common;
-using VintageStoryAPI.Addons.CommandHandler.Parsers.CommandParameters;
+using VintageStoryAPI.Addons.CommandHandler.Common.CommandParameters;
 
 namespace VintageStoryAPI.Addons.CommandHandler.Parsers;
 
-internal class ArgumentsParser : IArgumentsParser
+internal class ArgumentsParser<T> : IArgumentsParser<T> where T : ICoreAPI
 {
     private readonly CommandArgumentParsers _commandArgumentParsers;
 
