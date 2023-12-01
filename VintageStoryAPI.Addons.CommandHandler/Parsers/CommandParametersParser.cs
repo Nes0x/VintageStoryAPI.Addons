@@ -10,33 +10,32 @@ namespace VintageStoryAPI.Addons.CommandHandler.Parsers;
 internal class CommandParametersParser<T> : ICommandParametersParser<T> where T : ICoreAPI
 {
     private readonly ExtendedCommandArgumentParser _commandArgumentParser;
+    private readonly ICommandParametersValidator _commandParametersValidator;
 
-    public CommandParametersParser(ExtendedCommandArgumentParser commandArgumentParser)
+    public CommandParametersParser(ExtendedCommandArgumentParser commandArgumentParser, ICommandParametersValidator commandParametersValidator)
     {
         _commandArgumentParser = commandArgumentParser;
+        _commandParametersValidator = commandParametersValidator;
     }
 
     public IEnumerable<ICommandArgumentParser> GetCommandParametersFromParameters(IEnumerable<ParameterInfo> parameters)
     {
-        var argumentParsers = new List<ICommandArgumentParser>();
+        var parameterParsers = new List<ICommandArgumentParser>();
 
         foreach (var parameter in parameters)
         {
-            var attribute = parameter.GetCustomAttributes()
-                .Where(attribute => attribute.GetType().IsAssignableTo(typeof(CommandParameterAttribute))).ToArray();
-            if (attribute is null || attribute.Length != 1)
-                throw new CustomAttributeFormatException("You must add one attribute to command parameter");
-            argumentParsers.Add(ParseCommandParameterFromAttribute(attribute.First()));
+            if (!_commandParametersValidator.HasRequiredAttribute(parameter, out var attribute)) throw new CustomAttributeFormatException("You must add one attribute to command parameter");
+            parameterParsers.Add(ParseCommandParameterFromAttribute(attribute!));
         }
 
-        return argumentParsers;
+        return parameterParsers;
     }
 
     private ICommandArgumentParser ParseCommandParameterFromAttribute(Attribute attribute)
     {
         var parameters = attribute.ReadPropertiesFromAttribute<RequiredParameterAttribute>().ToArray();
         var methodName = GetMethodNameFromAttribute(attribute);
-        var arguments = IsOptional(attribute)
+        var arguments = _commandParametersValidator.IsOptional(attribute)
             ? parameters.Concat(attribute.ReadPropertiesFromAttribute<OptionalParameterAttribute>()).ToArray()
             : parameters.ToArray();
         return (ICommandArgumentParser)
@@ -45,18 +44,13 @@ internal class CommandParametersParser<T> : ICommandParametersParser<T> where T 
                 .First(method => method.Name == methodName && method.GetParameters().Length == arguments.Length)
                 .Invoke(_commandArgumentParser, arguments)!;
     }
-
+    
     private string GetMethodNameFromAttribute(Attribute attribute)
     {
         var type = attribute.GetType();
-        var propertyName = IsOptional(attribute) ? "OptionalMethodName" : "MethodName";
+        var propertyName = _commandParametersValidator.IsOptional(attribute) ? "OptionalMethodName" : "MethodName";
         return type.GetProperty(propertyName)!.GetValue(attribute)!.ToString()!;
     }
 
-    private bool IsOptional(Attribute attribute)
-    {
-        var type = attribute.GetType();
-        return type.GetInterface("IOptional", true) is not null && (bool)type
-            .GetProperty("IsOptional")!.GetValue(attribute)!;
-    }
+
 }

@@ -22,7 +22,7 @@ public class CommandHandler<T> : ICommandHandler<T> where T : ICoreAPI
     public void RegisterCommands()
     {
         ICommandsParser<T> commandsParser =
-            new CommandsParser<T>(new CommandParametersParser<T>(new ExtendedCommandArgumentParser(_api)));
+            new CommandsParser<T>(new CommandParametersParser<T>(new ExtendedCommandArgumentParser(_api), new CommandParametersValidator()));
         IInstancesCreator instancesCreator = new InstancesCreator();
         var commands = commandsParser.GetCommandsFromAssembly(Assembly.GetCallingAssembly());
         foreach (var command in commands)
