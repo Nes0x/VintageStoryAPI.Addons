@@ -3,7 +3,7 @@ using VintageStoryAPI.Addons.CommandHandler.Common.CommandParameters;
 
 namespace VintageStoryAPI.Addons.CommandHandler;
 
-public class CommandParametersValidator : ICommandParametersValidator
+internal class CommandParametersValidator : ICommandParametersValidator
 {
     public bool HasRequiredAttribute(ParameterInfo parameter, out Attribute? attribute)
     {

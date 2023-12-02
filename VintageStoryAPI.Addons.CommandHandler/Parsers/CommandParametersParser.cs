@@ -7,7 +7,7 @@ using VintageStoryAPI.Addons.Common.Extensions;
 
 namespace VintageStoryAPI.Addons.CommandHandler.Parsers;
 
-internal class CommandParametersParser<T> : ICommandParametersParser<T> where T : ICoreAPI
+internal class CommandParametersParser : ICommandParametersParser
 {
     private readonly ExtendedCommandArgumentParser _commandArgumentParser;
     private readonly ICommandParametersValidator _commandParametersValidator;
@@ -25,13 +25,13 @@ internal class CommandParametersParser<T> : ICommandParametersParser<T> where T 
         foreach (var parameter in parameters)
         {
             if (!_commandParametersValidator.HasRequiredAttribute(parameter, out var attribute)) throw new CustomAttributeFormatException("You must add one attribute to command parameter");
-            parameterParsers.Add(ParseCommandParameterFromAttribute(attribute!));
+            parameterParsers.Add(GetCommandParameterFromAttribute(attribute!));
         }
 
         return parameterParsers;
     }
 
-    private ICommandArgumentParser ParseCommandParameterFromAttribute(Attribute attribute)
+    private ICommandArgumentParser GetCommandParameterFromAttribute(Attribute attribute)
     {
         var parameters = attribute.ReadPropertiesFromAttribute<RequiredParameterAttribute>().ToArray();
         var methodName = GetMethodNameFromAttribute(attribute);

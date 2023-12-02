@@ -3,25 +3,20 @@ using Vintagestory.API.Common;
 
 namespace VintageStoryAPI.Addons.CommandHandler.Common;
 
-internal class Command<T> where T : ICoreAPI
+internal class Command
 {
-    public Command(string name, MethodInfo commandMethod, Type type)
+    public Command(string name, MethodInfo commandHandlerMethod, Type type, CommandProperties commandProperties)
     {
         Name = name;
-        CommandMethod = commandMethod;
+        CommandHandlerMethod = commandHandlerMethod;
         Type = type;
+        CommandProperties = commandProperties;
     }
 
     public string Name { get; }
-    public MethodInfo CommandMethod { get; }
+    public MethodInfo CommandHandlerMethod { get; }
     public Type Type { get; }
-    public string? Description { get; init; }
-    public string[]? Examples { get; init; }
-    public string[]? Aliases { get; init; }
-    public ICommandArgumentParser[]? CommandParameters { get; init; }
-    public string? RootAlias { get; init; }
-    public string? AdditionalInformation { get; init; }
-    public MethodInfo? PreConditionMethod { get; init; }
-    public bool? RequiredPlayer { get; init; }
-    public string? Privilege { get; init; }
+    public CommandProperties CommandProperties { get; }
+
+
 }

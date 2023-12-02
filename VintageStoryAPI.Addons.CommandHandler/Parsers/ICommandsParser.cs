@@ -4,7 +4,7 @@ using VintageStoryAPI.Addons.CommandHandler.Common;
 
 namespace VintageStoryAPI.Addons.CommandHandler.Parsers;
 
-internal interface ICommandsParser<T> where T : ICoreAPI
+internal interface ICommandsParser
 {
-    IEnumerable<Command<T>> GetCommandsFromAssembly(Assembly assembly);
+    IEnumerable<Command> GetCommandsFromAssembly<T>(Assembly assembly) where T : ICoreAPI;
 }

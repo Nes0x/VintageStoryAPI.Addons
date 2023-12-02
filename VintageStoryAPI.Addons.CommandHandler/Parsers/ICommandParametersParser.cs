@@ -3,7 +3,7 @@ using Vintagestory.API.Common;
 
 namespace VintageStoryAPI.Addons.CommandHandler.Parsers;
 
-internal interface ICommandParametersParser<T> where T : ICoreAPI
+internal interface ICommandParametersParser
 {
     IEnumerable<ICommandArgumentParser> GetCommandParametersFromParameters(IEnumerable<ParameterInfo> parameters);
 }

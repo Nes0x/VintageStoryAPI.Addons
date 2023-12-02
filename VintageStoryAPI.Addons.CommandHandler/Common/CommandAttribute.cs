@@ -18,6 +18,7 @@ public class CommandAttribute<T> : Attribute where T : ICoreAPI
     public string[]? Aliases { get; init; }
     public string? RootAlias { get; init; }
     public string? AdditionalInformation { get; init; }
+    public string? Privilege { get; init; }
 
     public bool RequiredPlayer
     {
@@ -25,5 +26,4 @@ public class CommandAttribute<T> : Attribute where T : ICoreAPI
         init => _requiredPlayer = value;
     }
 
-    public string? Privilege { get; init; }
 }
