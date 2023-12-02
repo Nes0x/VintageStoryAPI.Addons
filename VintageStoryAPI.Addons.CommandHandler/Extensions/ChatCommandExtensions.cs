@@ -4,16 +4,6 @@ namespace VintageStoryAPI.Addons.CommandHandler.Extensions;
 
 public static class ChatCommandExtensions
 {
-    /// <summary>If return value is error, command cannot be executed</summary>
-    /// <param name="chatCommand"></param>
-    /// <param name="p"></param>
-    /// <returns></returns>
-    public static IChatCommand WithNullablePreCondition(this IChatCommand chatCommand, CommandPreconditionDelegate? p)
-    {
-        if (p is not null) chatCommand.WithPreCondition(p);
-        return chatCommand;
-    }
-
     /// <summary>Registers alternative names for this command</summary>
     /// <param name="chatCommand"></param>
     /// <param name="name"></param>

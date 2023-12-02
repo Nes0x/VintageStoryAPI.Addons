@@ -17,6 +17,7 @@ internal class Command
     public MethodInfo CommandHandlerMethod { get; }
     public Type Type { get; }
     public CommandProperties CommandProperties { get; }
-
-
+    public ICommandArgumentParser[]? CommandParameters { get; init; }
+    public MethodInfo[]? PreConditionMethods { get; init; }
+    public Command[]? SubCommands { get; init; }
 }

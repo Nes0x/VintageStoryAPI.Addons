@@ -8,5 +8,8 @@ public class ExtendedCommandArgumentParser : CommandArgumentParsers
     {
     }
 
-    public static WordArgParser OptionalWord(string argName, string[] wordSuggestions) => new WordArgParser(argName, false, wordSuggestions);
+    public static WordArgParser OptionalWord(string argName, string[] wordSuggestions)
+    {
+        return new WordArgParser(argName, false, wordSuggestions);
+    }
 }

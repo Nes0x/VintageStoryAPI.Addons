@@ -25,20 +25,21 @@ public static class Program
 public class BuildContext : FrostingContext
 {
     public const string ProjectName = "ExampleMod";
-    public string BuildConfiguration { get; set; }
-    public string Version { get; }
-    public string Name { get; }
-    public bool SkipJsonValidation { get; set; }
 
     public BuildContext(ICakeContext context)
         : base(context)
     {
         BuildConfiguration = context.Argument("configuration", "Release");
         SkipJsonValidation = context.Argument("skipJsonValidation", false);
-        var modInfo = context.DeserializeJsonFromFile<ModInfo>($"../{BuildContext.ProjectName}/modinfo.json");
+        var modInfo = context.DeserializeJsonFromFile<ModInfo>($"../{ProjectName}/modinfo.json");
         Version = modInfo.Version;
         Name = modInfo.ModID;
     }
+
+    public string BuildConfiguration { get; set; }
+    public string Version { get; }
+    public string Name { get; }
+    public bool SkipJsonValidation { get; set; }
 }
 
 [TaskName("ValidateJson")]
@@ -46,14 +47,10 @@ public sealed class ValidateJsonTask : FrostingTask<BuildContext>
 {
     public override void Run(BuildContext context)
     {
-        if (context.SkipJsonValidation)
-        {
-            return;
-        }
+        if (context.SkipJsonValidation) return;
 
         var jsonFiles = context.GetFiles($"../{BuildContext.ProjectName}/assets/**/*.json");
         foreach (var file in jsonFiles)
-        {
             try
             {
                 var json = File.ReadAllText(file.FullPath);
@@ -64,7 +61,6 @@ public sealed class ValidateJsonTask : FrostingTask<BuildContext>
                 throw new Exception(
                     $"Validation failed for JSON file: {file.FullPath}{Environment.NewLine}{ex.Message}", ex);
             }
-        }
     }
 }
 

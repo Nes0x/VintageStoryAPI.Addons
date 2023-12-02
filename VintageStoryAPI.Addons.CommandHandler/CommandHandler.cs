@@ -1,6 +1,5 @@
 ﻿using System.Reflection;
 using Vintagestory.API.Common;
-using VintageStoryAPI.Addons.CommandHandler.Common;
 using VintageStoryAPI.Addons.CommandHandler.Extensions;
 using VintageStoryAPI.Addons.CommandHandler.Parsers;
 using VintageStoryAPI.Addons.Common.Creators;
@@ -11,17 +10,19 @@ public class CommandHandler<T> : ICommandHandler<T> where T : ICoreAPI
 {
     private readonly T _api;
     private readonly string _commandErrorMessage;
-    private readonly IServiceProvider? _provider;
+    private readonly ICommandMethodInvoker _commandMethodInvoker;
     private readonly ICommandsParser _commandsParser;
     private readonly IInstancesCreator _instancesCreator = new InstancesCreator();
-    private readonly ICommandArgumentsParser _commandArgumentsParser = new CommandArgumentsParser();
+    private readonly IServiceProvider? _provider;
 
 
     public CommandHandler(T api, string commandErrorMessage = "Error: {0}", IServiceProvider? provider = null)
     {
         _api = api;
         _provider = provider;
-        _commandsParser = new CommandsParser(new CommandParametersParser(new ExtendedCommandArgumentParser(_api), new CommandParametersValidator()));
+        _commandsParser = new CommandsParser(new CommandParametersParser(new ExtendedCommandArgumentParser(_api),
+            new CommandParametersValidator()));
+        _commandMethodInvoker = new CommandMethodInvoker(_instancesCreator, new CommandArgumentsParser());
         _commandErrorMessage = commandErrorMessage;
     }
 
@@ -31,7 +32,7 @@ public class CommandHandler<T> : ICommandHandler<T> where T : ICoreAPI
         foreach (var command in commands)
         {
             var commandProperties = command.CommandProperties;
-            _api.ChatCommands
+            var chatCommand = _api.ChatCommands
                 .Create(command.Name)
                 .WithNullableDescription(commandProperties.Description)
                 .WithNullableAlias(commandProperties.Aliases)
@@ -39,29 +40,20 @@ public class CommandHandler<T> : ICommandHandler<T> where T : ICoreAPI
                 .WithNullableAdditionalInformation(commandProperties.AdditionalInformation)
                 .WithNullableRootAlias(commandProperties.RootAlias)
                 .RequiresNullablePlayer(commandProperties.RequiredPlayer)
-                .WithNullableArgs(commandProperties.CommandParameters)
+                .WithNullableArgs(command.CommandParameters)
                 .RequiresNullablePrivilege(commandProperties.Privilege)
-                .HandleWith(args => Handle(args, command));
+                .HandleWith(args => Handle(command.CommandHandlerMethod, args));
+            if (command.PreConditionMethods is null) continue;
+            foreach (var commandPreCondition in command.PreConditionMethods)
+                chatCommand.WithPreCondition(args => Handle(commandPreCondition, args));
         }
     }
 
-    private TextCommandResult Handle(TextCommandCallingArgs args, Command command)
+    private TextCommandResult Handle(MethodInfo method, TextCommandCallingArgs args)
     {
-        var type = command.Type;
-        var instance = _instancesCreator.CreateInstance(command.Type, _provider);
-        var arguments = _commandArgumentsParser
-            .GetArgumentsFromParsers(args.Parsers, command.CommandHandlerMethod.GetParameters())
-            .Prepend(_api);
-        type.GetProperty("Context")!.SetValue(instance, args);
-        try
-        {
-            return (TextCommandResult)command.CommandHandlerMethod.Invoke(instance, arguments.ToArray())!;
-        }
-        catch (Exception exception)
-        {
-            return TextCommandResult.Error(string.Format(_commandErrorMessage, exception.Message));
-        }
+        var result = _commandMethodInvoker.Invoke(method, args, _api, _provider);
+        return result.IsError
+            ? TextCommandResult.Error(string.Format(_commandErrorMessage, result.ErrorMessage))
+            : result.Result!;
     }
-    
-    
 }

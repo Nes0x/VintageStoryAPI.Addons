@@ -23,21 +23,29 @@ internal class CommandsParser : ICommandsParser
                 .Where(method => method.GetCustomAttribute(typeof(CommandAttribute<T>), true) is not null));
         var commands = commandMethods.Select(method =>
         {
-            var attribute = method.GetCustomAttribute<CommandAttribute<T>>()!;
+            var commandAttribute = method.GetCustomAttribute<CommandAttribute<T>>()!;
             var methodParameters = method.GetParameters().Where(parameter =>
                 parameter.GetCustomAttribute(typeof(CommandParameterAttribute), true) is not null).AsEnumerable();
-            var commandParameters = _commandParametersParser.GetCommandParametersFromParameters(methodParameters.Where(methodParameter => !methodParameter.ParameterType.IsAssignableTo(typeof(ICoreAPI))));
-            return new Command(attribute.Name, method, method.DeclaringType!, new CommandProperties()
+            var commandParameters = _commandParametersParser.GetCommandParametersFromParameters(
+                methodParameters.Where(methodParameter =>
+                    !methodParameter.ParameterType.IsAssignableTo(typeof(ICoreAPI))));
+            return new Command(commandAttribute.Name, method, method.DeclaringType!, new CommandProperties
             {
-                Description = attribute.Description,
-                Aliases = attribute.Aliases,
-                Examples = attribute.Examples,
-                AdditionalInformation = attribute.AdditionalInformation,
-                RootAlias = attribute.RootAlias,
-                Privilege = attribute.Privilege,
-                RequiredPlayer = attribute._requiredPlayer,
-                CommandParameters = commandParameters.ToArray()
-            });
+                Description = commandAttribute.Description,
+                Aliases = commandAttribute.Aliases,
+                Examples = commandAttribute.Examples,
+                AdditionalInformation = commandAttribute.AdditionalInformation,
+                RootAlias = commandAttribute.RootAlias,
+                Privilege = commandAttribute.Privilege,
+                RequiredPlayer = commandAttribute._requiredPlayer
+            })
+            {
+                CommandParameters = commandParameters.ToArray(),
+                PreConditionMethods = method.GetCustomAttributes()
+                    .Where(attribute => attribute.GetType().IsAssignableTo(typeof(PreConditionAttribute<T>)))
+                    .Select(attribute => attribute.GetType().GetMethod("Handle")!)
+                    .ToArray()
+            };
         });
         return commands;
     }

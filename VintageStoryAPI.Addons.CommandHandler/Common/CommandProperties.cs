@@ -1,7 +1,4 @@
-﻿using System.Reflection;
-using Vintagestory.API.Common;
-
-namespace VintageStoryAPI.Addons.CommandHandler.Common;
+﻿namespace VintageStoryAPI.Addons.CommandHandler.Common;
 
 internal class CommandProperties
 {
@@ -12,6 +9,4 @@ internal class CommandProperties
     public string? Description { get; init; }
     public string[]? Examples { get; init; }
     public string[]? Aliases { get; init; }
-    public ICommandArgumentParser[]? CommandParameters { get; init; }
-    public MethodInfo? PreConditionMethod { get; init; }
 }

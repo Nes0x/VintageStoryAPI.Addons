@@ -23,15 +23,13 @@
     </ItemGroup>
 
 
-
     <ItemGroup>
-      <ProjectReference Include="..\..\VintageStoryAPI.Addons.CommandHandler\VintageStoryAPI.Addons.CommandHandler.csproj" />
+        <ProjectReference Include="..\..\VintageStoryAPI.Addons.CommandHandler\VintageStoryAPI.Addons.CommandHandler.csproj"/>
     </ItemGroup>
 
 
-
     <ItemGroup>
-      <PackageReference Include="Microsoft.Extensions.DependencyInjection" Version="7.0.0" />
+        <PackageReference Include="Microsoft.Extensions.DependencyInjection" Version="7.0.0"/>
     </ItemGroup>
 
 </Project>

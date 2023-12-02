@@ -25,5 +25,4 @@ public class CommandAttribute<T> : Attribute where T : ICoreAPI
         get => _requiredPlayer.GetValueOrDefault();
         init => _requiredPlayer = value;
     }
-
 }

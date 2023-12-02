@@ -5,7 +5,8 @@ namespace VintageStoryAPI.Addons.CommandHandler.Parsers;
 
 internal class CommandArgumentsParser : ICommandArgumentsParser
 {
-    public IEnumerable<object?> GetArgumentsFromParsers(IEnumerable<ICommandArgumentParser> parsers, IEnumerable<ParameterInfo> parameters)
+    public IEnumerable<object?> GetArgumentsFromParsers(IEnumerable<ICommandArgumentParser> parsers,
+        IEnumerable<ParameterInfo> parameters)
     {
         return parsers.Select((parser, index) =>
         {
