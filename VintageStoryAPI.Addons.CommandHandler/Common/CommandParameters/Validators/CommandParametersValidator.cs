@@ -1,7 +1,6 @@
 ﻿using System.Reflection;
-using VintageStoryAPI.Addons.CommandHandler.Common.CommandParameters;
 
-namespace VintageStoryAPI.Addons.CommandHandler;
+namespace VintageStoryAPI.Addons.CommandHandler.Common.CommandParameters.Validators;
 
 internal class CommandParametersValidator : ICommandParametersValidator
 {

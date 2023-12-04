@@ -2,7 +2,7 @@
 using Vintagestory.API.Common;
 using VintageStoryAPI.Addons.CommandHandler.Common;
 
-namespace VintageStoryAPI.Addons.CommandHandler;
+namespace VintageStoryAPI.Addons.CommandHandler.Invokers;
 
 internal interface ICommandMethodInvoker
 {

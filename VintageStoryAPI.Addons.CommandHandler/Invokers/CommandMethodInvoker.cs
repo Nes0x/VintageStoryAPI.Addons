@@ -4,7 +4,7 @@ using VintageStoryAPI.Addons.CommandHandler.Common;
 using VintageStoryAPI.Addons.CommandHandler.Parsers;
 using VintageStoryAPI.Addons.Common.Creators;
 
-namespace VintageStoryAPI.Addons.CommandHandler;
+namespace VintageStoryAPI.Addons.CommandHandler.Invokers;
 
 internal class CommandMethodInvoker : ICommandMethodInvoker
 {

@@ -1,6 +1,7 @@
 ﻿using System.Reflection;
 using Vintagestory.API.Common;
 using VintageStoryAPI.Addons.CommandHandler.Common;
+using VintageStoryAPI.Addons.CommandHandler.Common.CommandParameters.Validators;
 using VintageStoryAPI.Addons.CommandHandler.Extensions;
 using VintageStoryAPI.Addons.Common.Extensions;
 
@@ -25,7 +26,7 @@ internal class CommandParametersParser : ICommandParametersParser
         foreach (var parameter in parameters)
         {
             if (!_commandParametersValidator.HasRequiredAttribute(parameter, out var attribute))
-                throw new CustomAttributeFormatException("You must add one attribute to command parameter");
+                throw new CustomAttributeFormatException("You must add one attribute to command parameter.");
             parameterParsers.Add(GetCommandParameterFromAttribute(attribute!));
         }
 
