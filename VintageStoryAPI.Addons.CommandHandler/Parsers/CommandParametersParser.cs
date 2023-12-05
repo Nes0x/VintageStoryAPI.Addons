@@ -19,7 +19,7 @@ internal class CommandParametersParser : ICommandParametersParser
         _commandParametersValidator = commandParametersValidator;
     }
 
-    public IEnumerable<ICommandArgumentParser> GetCommandParametersFromParameters(IEnumerable<ParameterInfo> parameters)
+    public IEnumerable<ICommandArgumentParser> Parse(IEnumerable<ParameterInfo> parameters)
     {
         var parameterParsers = new List<ICommandArgumentParser>();
 

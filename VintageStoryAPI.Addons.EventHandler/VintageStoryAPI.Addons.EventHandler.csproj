@@ -1,0 +1,19 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+    <PropertyGroup>
+        <TargetFramework>net7.0</TargetFramework>
+        <ImplicitUsings>enable</ImplicitUsings>
+        <Nullable>enable</Nullable>
+    </PropertyGroup>
+
+    <ItemGroup>
+        <Reference Include="VintagestoryAPI">
+            <HintPath>..\..\..\..\..\AppData\Roaming\Vintagestory\VintagestoryAPI.dll</HintPath>
+        </Reference>
+    </ItemGroup>
+    
+    <ItemGroup>
+      <ProjectReference Include="..\VintageStoryAPI.Addons.Common\VintageStoryAPI.Addons.Common.csproj" />
+    </ItemGroup>
+
+</Project>

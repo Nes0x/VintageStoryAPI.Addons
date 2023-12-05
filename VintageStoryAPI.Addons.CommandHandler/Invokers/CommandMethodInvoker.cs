@@ -23,7 +23,7 @@ internal class CommandMethodInvoker : ICommandMethodInvoker
         var type = method.DeclaringType!;
         var instance = _instancesCreator.CreateInstance(type, provider)!;
         var arguments = _commandArgumentsParser
-            .GetArgumentsFromParsers(context.Parsers, method.GetParameters())
+            .Parse(context.Parsers, method.GetParameters())
             .Prepend(api);
         type.GetProperty("Context")!.SetValue(instance, context);
         try

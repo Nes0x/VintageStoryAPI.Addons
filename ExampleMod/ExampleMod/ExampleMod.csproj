@@ -25,6 +25,7 @@
 
     <ItemGroup>
         <ProjectReference Include="..\..\VintageStoryAPI.Addons.CommandHandler\VintageStoryAPI.Addons.CommandHandler.csproj"/>
+        <ProjectReference Include="..\..\VintageStoryAPI.Addons.EventHandler\VintageStoryAPI.Addons.EventHandler.csproj" />
     </ItemGroup>
 
 

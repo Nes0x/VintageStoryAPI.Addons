@@ -2,11 +2,12 @@
 using Vintagestory.API.Common;
 using VintageStoryAPI.Addons.CommandHandler.Common;
 using VintageStoryAPI.Addons.CommandHandler.Common.CommandParameters;
+using VintageStoryAPI.Addons.Common;
 using VintageStoryAPI.Addons.Common.Extensions;
 
 namespace VintageStoryAPI.Addons.CommandHandler.Parsers;
 
-internal class CommandsParser : ICommandsParser
+internal class CommandsParser<TReturn> : IParser<Command<TReturn>> where TReturn : ICoreAPI
 {
     private readonly ICommandParametersParser _commandParametersParser;
 
@@ -15,47 +16,38 @@ internal class CommandsParser : ICommandsParser
         _commandParametersParser = commandParametersParser;
     }
 
-    public IEnumerable<Command> GetCommandsFromAssembly<T>(Assembly assembly) where T : ICoreAPI
+    public IEnumerable<Command<TReturn>> Parse(Assembly assembly) 
     {
         var commandMethods = assembly
             .GetSpecificMethodsFromTypes<CommandModule>(method => 
-                method.GetCustomAttribute(typeof(CommandAttribute<T>), true) is not null
+                method.GetCustomAttribute(typeof(CommandAttribute<TReturn>), true) is not null
                 && method.GetCustomAttribute(typeof(SubCommandAttribute), true) is null);
-        var commands = commandMethods.Select(GetCommand<T>);
+        var commands = commandMethods.Select(GetCommand);
         return commands;
     }
 
-    private Command GetCommand<T>(MethodInfo commandMethod) where T : ICoreAPI
+    private Command<TReturn> GetCommand(MethodInfo commandMethod)
     {
-        var commandAttribute = commandMethod.GetCustomAttribute<CommandAttribute<T>>()!;
+        var commandAttribute = commandMethod.GetCustomAttribute<CommandAttribute<TReturn>>()!;
         var methodParameters = commandMethod.GetParameters().Where(parameter =>
             parameter.GetCustomAttribute(typeof(CommandParameterAttribute), true) is not null).AsEnumerable();
-        var commandParameters = _commandParametersParser.GetCommandParametersFromParameters(
+        var commandParameters = _commandParametersParser.Parse(
             methodParameters.Where(methodParameter =>
                 !methodParameter.ParameterType.IsAssignableTo(typeof(ICoreAPI))));
-        return new Command(commandAttribute.Name, commandMethod, commandMethod.DeclaringType!, new CommandProperties
-        {
-            Description = commandAttribute.Description,
-            Aliases = commandAttribute.Aliases,
-            Examples = commandAttribute.Examples,
-            AdditionalInformation = commandAttribute.AdditionalInformation,
-            RootAlias = commandAttribute.RootAlias,
-            Privilege = commandAttribute.Privilege,
-            RequiredPlayer = commandAttribute._requiredPlayer
-        })
+        return new Command<TReturn>(commandAttribute, commandMethod)
         {
             CommandParameters = commandParameters.ToArray(),
             PreConditionMethods = commandMethod.GetCustomAttributes()
-                .Where(attribute => attribute.GetType().IsAssignableTo(typeof(PreConditionAttribute<T>)))
+                .Where(attribute => attribute.GetType().IsAssignableTo(typeof(PreConditionAttribute<TReturn>)))
                 .Select(attribute => attribute.GetType().GetMethod("Handle")!)
                 .ToArray(),
             SubCommands = commandMethod.DeclaringType!.GetSpecificMethodsFromType(method =>
             {
                 if (method.GetCustomAttribute(typeof(SubCommandAttribute), true) is null 
-                    || method.GetCustomAttribute(typeof(CommandAttribute<T>), true) is null) return false;
+                    || method.GetCustomAttribute(typeof(CommandAttribute<TReturn>), true) is null) return false;
                 var attribute = method.GetCustomAttribute<SubCommandAttribute>()!;
                 return attribute.BaseCommandName == commandAttribute.Name;
-            }).Select(GetCommand<T>).ToArray()
+            }).Select(GetCommand).ToArray()
         };
 
     }
