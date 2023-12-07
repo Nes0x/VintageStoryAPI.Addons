@@ -2,5 +2,7 @@
 
 public enum EventType
 {
-    PlayerJoin
+    PlayerJoin,
+    BlockChanged,
+    PlayerDeath
 }

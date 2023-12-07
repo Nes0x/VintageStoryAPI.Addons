@@ -6,5 +6,5 @@ namespace VintageStoryAPI.Addons.CommandHandler.Common;
 public abstract class PreConditionAttribute<T> : Attribute where T : ICoreAPI
 {
     public TextCommandCallingArgs Context { get; internal set; }
-    public abstract TextCommandResult Handle(T api);
+    public abstract TextCommandResult Handle();
 }

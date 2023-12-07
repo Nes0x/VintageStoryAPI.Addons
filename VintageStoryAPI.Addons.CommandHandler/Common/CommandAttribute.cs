@@ -3,7 +3,7 @@
 namespace VintageStoryAPI.Addons.CommandHandler.Common;
 
 [AttributeUsage(AttributeTargets.Method)]
-public class CommandAttribute<T> : Attribute where T : ICoreAPI
+public class CommandAttribute<TApi> : Attribute where TApi : ICoreAPI
 {
     internal bool? _requiredPlayer;
 

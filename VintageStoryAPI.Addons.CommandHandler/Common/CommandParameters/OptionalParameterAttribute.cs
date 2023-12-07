@@ -1,6 +1,6 @@
-﻿namespace VintageStoryAPI.Addons.CommandHandler.Common;
+﻿namespace VintageStoryAPI.Addons.CommandHandler.Common.CommandParameters;
 
 [AttributeUsage(AttributeTargets.Property)]
-internal class OptionalParameterAttribute : Attribute
+public class OptionalParameterAttribute : Attribute
 {
 }

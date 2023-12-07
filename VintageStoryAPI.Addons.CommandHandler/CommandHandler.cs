@@ -10,19 +10,20 @@ using VintageStoryAPI.Addons.Common.Creators;
 
 namespace VintageStoryAPI.Addons.CommandHandler;
 
-public class CommandHandler<T> : IHandler<T> where T : ICoreAPI
+public class CommandHandler<TApi> : IHandler<TApi> where TApi : ICoreAPI
 {
-    private readonly T _api;
+    private readonly TApi _api;
     private readonly string _commandErrorMessage;
     private readonly ICommandMethodInvoker _commandMethodInvoker;
-    private readonly IParser<Command<T>> _commandsParser;
+    private readonly IParser<Command<TApi>> _commandsParser;
     private readonly IServiceProvider? _provider;
 
-    public CommandHandler(T api, string commandErrorMessage = "Error: {0}", IServiceProvider? provider = null)
+    public CommandHandler(TApi api, ExtendedCommandArgumentParser? commandArgumentParser = null, string commandErrorMessage = "Error: {0}", IServiceProvider? provider = null)
     {
         _api = api;
         _provider = provider;
-        _commandsParser = new CommandsParser<T>(new CommandParametersParser(new ExtendedCommandArgumentParser(_api),
+        commandArgumentParser ??= new ExtendedCommandArgumentParser(_api);
+        _commandsParser = new CommandsParser<TApi>(new CommandParametersParser(commandArgumentParser,
             new CommandParametersValidator()));
         _commandMethodInvoker = new CommandMethodInvoker(new InstancesCreator(), new CommandArgumentsParser());
         _commandErrorMessage = commandErrorMessage;
@@ -48,7 +49,7 @@ public class CommandHandler<T> : IHandler<T> where T : ICoreAPI
         }
     }
 
-    private void AddCommandProperties(Command<T> command, IChatCommand chatCommand)
+    private void AddCommandProperties(Command<TApi> command, IChatCommand chatCommand)
     {
         var commandProperties = command.CommandProperties;
         chatCommand

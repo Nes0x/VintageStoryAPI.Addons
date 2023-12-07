@@ -11,14 +11,14 @@ public class ExampleCommandModule : CommandModule
 {
     [Command<ICoreClientAPI>("hello-client")]
     [ExamplePreCondition<ICoreClientAPI>]
-    public TextCommandResult HandleHelloClient(ICoreClientAPI api, [WordCommandParameter("word")] string word)
+    public TextCommandResult HandleHelloClient([WordCommandParameter("word")] string word)
     {
         return TextCommandResult.Success($"Hello {Context.Caller.Player.PlayerName} from client. You typed {word}.");
     }
 
     [SubCommand("hello-client")]
     [Command<ICoreClientAPI>("subcommand")]
-    public TextCommandResult HandleHelloClientSubCommand(ICoreClientAPI api, string word,
+    public TextCommandResult HandleHelloClientSubCommand(string word,
         [IntCommandParameter("number", isOptional: true)] int number)
     {
         return TextCommandResult.Success(
@@ -26,7 +26,7 @@ public class ExampleCommandModule : CommandModule
     }
 
     [Command<ICoreServerAPI>("hello-server", Privilege = "chat")]
-    public TextCommandResult HandleHelloServer(ICoreServerAPI api)
+    public TextCommandResult HandleHelloServer()
     {
         return TextCommandResult.Success($"Hello {Context.Caller.Player.PlayerName} from server.");
     }

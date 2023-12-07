@@ -3,18 +3,18 @@ using Vintagestory.API.Common;
 
 namespace VintageStoryAPI.Addons.CommandHandler.Common;
 
-internal class Command<T> where T : ICoreAPI
+internal class Command<TApi> where TApi : ICoreAPI
 {
-    public Command(CommandAttribute<T> commandProperties, MethodInfo commandHandlerMethod)
+    public Command(CommandAttribute<TApi> commandProperties, MethodInfo commandHandlerMethod)
     {
         CommandProperties = commandProperties;
         CommandHandlerMethod = commandHandlerMethod;
     }
 
 
-    public CommandAttribute<T> CommandProperties { get; }
+    public CommandAttribute<TApi> CommandProperties { get; }
     public MethodInfo CommandHandlerMethod { get; }
     public ICommandArgumentParser[]? CommandParameters { get; init; }
     public MethodInfo[]? PreConditionMethods { get; init; }
-    public Command<T>[]? SubCommands { get; init; }
+    public Command<TApi>[]? SubCommands { get; init; }
 }

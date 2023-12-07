@@ -1,6 +1,6 @@
-﻿namespace VintageStoryAPI.Addons.CommandHandler.Common;
+﻿namespace VintageStoryAPI.Addons.CommandHandler.Common.CommandParameters;
 
 [AttributeUsage(AttributeTargets.Property)]
-internal class RequiredParameterAttribute : Attribute
+public class RequiredParameterAttribute : Attribute
 {
 }

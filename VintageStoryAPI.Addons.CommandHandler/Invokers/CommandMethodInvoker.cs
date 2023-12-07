@@ -23,8 +23,7 @@ internal class CommandMethodInvoker : ICommandMethodInvoker
         var type = method.DeclaringType!;
         var instance = _instancesCreator.CreateInstance(type, provider)!;
         var arguments = _commandArgumentsParser
-            .Parse(context.Parsers, method.GetParameters())
-            .Prepend(api);
+            .Parse(context.Parsers, method.GetParameters());
         type.GetProperty("Context")!.SetValue(instance, context);
         try
         {
@@ -36,6 +35,7 @@ internal class CommandMethodInvoker : ICommandMethodInvoker
         }
         catch (Exception exception)
         {
+            api.Logger.Error(exception);
             return new CommandMethodInvokerResult
             {
                 IsError = true,

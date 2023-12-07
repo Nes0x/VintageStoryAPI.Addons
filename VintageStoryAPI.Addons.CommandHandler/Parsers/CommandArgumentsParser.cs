@@ -12,7 +12,7 @@ internal class CommandArgumentsParser : ICommandArgumentsParser
         {
             var value = parser.GetValue();
             if (value is not null) return value;
-            var parameter = parameters.ElementAt(index + 1);
+            var parameter = parameters.ElementAt(index);
             return parameter.HasDefaultValue ? parameter.DefaultValue : value;
         });
     }
