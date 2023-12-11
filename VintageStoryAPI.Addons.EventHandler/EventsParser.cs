@@ -11,7 +11,7 @@ internal class EventsParser<TApi> : IParser<Event<TApi>> where TApi : ICoreAPI
     public IEnumerable<Event<TApi>> Parse(Assembly assembly)
     {
         var eventMethods = assembly
-            .GetSpecificMethodsFromTypes<EventModule>(method => 
+            .GetSpecificMethodsFromTypes<EventModule>(method =>
                 method.GetCustomAttribute(typeof(EventAttribute<TApi>), true) is not null);
         return eventMethods.Select(eventMethod =>
             new Event<TApi>(eventMethod, eventMethod.GetCustomAttribute<EventAttribute<TApi>>()!));

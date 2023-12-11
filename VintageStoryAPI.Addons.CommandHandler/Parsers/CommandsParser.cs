@@ -16,10 +16,10 @@ internal class CommandsParser<TApi> : IParser<Command<TApi>> where TApi : ICoreA
         _commandParametersParser = commandParametersParser;
     }
 
-    public IEnumerable<Command<TApi>> Parse(Assembly assembly) 
+    public IEnumerable<Command<TApi>> Parse(Assembly assembly)
     {
         var commandMethods = assembly
-            .GetSpecificMethodsFromTypes<CommandModule>(method => 
+            .GetSpecificMethodsFromTypes<CommandModule>(method =>
                 method.GetCustomAttribute(typeof(CommandAttribute<TApi>), true) is not null
                 && method.GetCustomAttribute(typeof(SubCommandAttribute), true) is null);
         var commands = commandMethods.Select(GetCommand);
@@ -43,12 +43,11 @@ internal class CommandsParser<TApi> : IParser<Command<TApi>> where TApi : ICoreA
                 .ToArray(),
             SubCommands = commandMethod.DeclaringType!.GetSpecificMethodsFromType(method =>
             {
-                if (method.GetCustomAttribute(typeof(SubCommandAttribute), true) is null 
+                if (method.GetCustomAttribute(typeof(SubCommandAttribute), true) is null
                     || method.GetCustomAttribute(typeof(CommandAttribute<TApi>), true) is null) return false;
                 var attribute = method.GetCustomAttribute<SubCommandAttribute>()!;
                 return attribute.BaseCommandName == commandAttribute.Name;
             }).Select(GetCommand).ToArray()
         };
-
     }
 }

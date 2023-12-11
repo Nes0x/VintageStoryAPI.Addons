@@ -18,7 +18,8 @@ public class CommandHandler<TApi> : IHandler<TApi> where TApi : ICoreAPI
     private readonly IParser<Command<TApi>> _commandsParser;
     private readonly IServiceProvider? _provider;
 
-    public CommandHandler(TApi api, ExtendedCommandArgumentParser? commandArgumentParser = null, string commandErrorMessage = "Error: {0}", IServiceProvider? provider = null)
+    public CommandHandler(TApi api, ExtendedCommandArgumentParser? commandArgumentParser = null,
+        string commandErrorMessage = "Error: {0}", IServiceProvider? provider = null)
     {
         _api = api;
         _provider = provider;
@@ -41,7 +42,7 @@ public class CommandHandler<TApi> : IHandler<TApi> where TApi : ICoreAPI
                 chatCommand.WithPreCondition(args => Handle(commandPreCondition, args));
             if (command.SubCommands is null) continue;
             foreach (var subCommand in command.SubCommands)
-            { 
+            {
                 var subChatCommand = chatCommand.BeginSubCommand(subCommand.CommandProperties.Name);
                 AddCommandProperties(subCommand, subChatCommand);
                 subChatCommand.EndSubCommand();

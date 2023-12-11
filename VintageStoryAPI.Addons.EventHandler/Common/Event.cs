@@ -11,6 +11,6 @@ internal class Event<TApi> where TApi : ICoreAPI
         EventProperties = eventProperties;
     }
 
-    public MethodInfo EventMethodHandler { get; } 
-    public EventAttribute<TApi> EventProperties { get; } 
+    public MethodInfo EventMethodHandler { get; }
+    public EventAttribute<TApi> EventProperties { get; }
 }

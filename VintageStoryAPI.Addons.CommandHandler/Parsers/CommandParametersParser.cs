@@ -1,6 +1,5 @@
 ﻿using System.Reflection;
 using Vintagestory.API.Common;
-using VintageStoryAPI.Addons.CommandHandler.Common;
 using VintageStoryAPI.Addons.CommandHandler.Common.CommandParameters;
 using VintageStoryAPI.Addons.CommandHandler.Common.CommandParameters.Validators;
 using VintageStoryAPI.Addons.CommandHandler.Extensions;

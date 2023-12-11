@@ -1,8 +1,6 @@
 ﻿using System;
 using ExampleMod.Creators;
 using Vintagestory.API.Client;
-using Vintagestory.API.Common;
-using Vintagestory.API.MathTools;
 using VintageStoryAPI.Addons.EventHandler.Common;
 
 namespace ExampleMod.Modules.Events;

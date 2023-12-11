@@ -8,12 +8,12 @@
 
     <ItemGroup>
         <Reference Include="VintagestoryAPI">
-            <HintPath>..\..\..\..\..\AppData\Roaming\Vintagestory\VintagestoryAPI.dll</HintPath>
+            <HintPath>$(VINTAGE_STORY)/VintagestoryAPI.dll</HintPath>
         </Reference>
     </ItemGroup>
-    
+
     <ItemGroup>
-      <ProjectReference Include="..\VintageStoryAPI.Addons.Common\VintageStoryAPI.Addons.Common.csproj" />
+        <ProjectReference Include="..\VintageStoryAPI.Addons.Common\VintageStoryAPI.Addons.Common.csproj"/>
     </ItemGroup>
 
 </Project>

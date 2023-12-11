@@ -1,19 +1,17 @@
 ﻿using System.Reflection;
-using Vintagestory.API.Client;
 using Vintagestory.API.Common;
-using Vintagestory.API.Datastructures;
 using VintageStoryAPI.Addons.Common;
 using VintageStoryAPI.Addons.Common.Creators;
 using VintageStoryAPI.Addons.EventHandler.Common;
 
 namespace VintageStoryAPI.Addons.EventHandler;
 
-public class EventHandler<TApi> : IHandler<TApi> where TApi :  ICoreAPI
+public class EventHandler<TApi> : IHandler<TApi> where TApi : ICoreAPI
 {
+    private readonly TApi _api;
     private readonly IParser<Event<TApi>> _eventsParser = new EventsParser<TApi>();
     private readonly IInstancesCreator _instancesCreator = new InstancesCreator();
     private readonly IServiceProvider? _provider;
-    private readonly TApi _api;
 
     public EventHandler(TApi api, IServiceProvider? provider = null)
     {
@@ -32,7 +30,9 @@ public class EventHandler<TApi> : IHandler<TApi> where TApi :  ICoreAPI
             Delegate handler;
             try
             {
-                handler = Delegate.CreateDelegate(handlerType,  _instancesCreator.CreateInstance(@event.EventMethodHandler.DeclaringType!, _provider), @event.EventMethodHandler);
+                handler = Delegate.CreateDelegate(handlerType,
+                    _instancesCreator.CreateInstance(@event.EventMethodHandler.DeclaringType!, _provider),
+                    @event.EventMethodHandler);
             }
             catch (ArgumentException)
             {
@@ -40,6 +40,7 @@ public class EventHandler<TApi> : IHandler<TApi> where TApi :  ICoreAPI
                     $"Your {@event.EventMethodHandler.Name} method from {@event.GetType().Name} class has a bad signature.");
                 continue;
             }
+
             eventInfo.AddEventHandler(_api.Event, handler);
         }
     }

@@ -19,7 +19,8 @@ public class ExampleCommandModule : CommandModule
     [SubCommand("hello-client")]
     [Command<ICoreClientAPI>("subcommand")]
     public TextCommandResult HandleHelloClientSubCommand(string word,
-        [IntCommandParameter("number", isOptional: true)] int number)
+        [IntCommandParameter("number", isOptional: true)]
+        int number)
     {
         return TextCommandResult.Success(
             $"Hello {Context.Caller.Player.PlayerName} from client. You typed {word}. Subcommand {number}");

@@ -1,15 +1,11 @@
 ﻿using System;
-using System.ComponentModel.Design;
 using System.Reflection;
 using ExampleMod.Creators;
 using Microsoft.Extensions.DependencyInjection;
 using Vintagestory.API.Client;
 using Vintagestory.API.Common;
-using Vintagestory.API.Datastructures;
-using Vintagestory.API.MathTools;
 using Vintagestory.API.Server;
 using VintageStoryAPI.Addons.CommandHandler;
-using VintageStoryAPI.Addons.EventHandler;
 
 namespace ExampleMod;
 
