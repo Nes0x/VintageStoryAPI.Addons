@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Reflection;
 using ExampleMod.Creators;
+using ExampleMod.Modules.Events;
 using Microsoft.Extensions.DependencyInjection;
 using Vintagestory.API.Client;
 using Vintagestory.API.Common;
@@ -13,9 +14,9 @@ public class ExampleModModSystem : ModSystem
 {
     public override void StartClientSide(ICoreClientAPI api)
     {
-        IServiceProvider provider = new ServiceCollection().AddTransient<MessageCreator>().BuildServiceProvider();
+        IServiceProvider provider = new ServiceCollection().AddTransient<MessageCreator>().AddSingleton(_ => api).BuildServiceProvider();
         var commandHandler = new CommandHandler<ICoreClientAPI>(api);
-        var eventHandler = new VintageStoryAPI.Addons.EventHandler.EventHandler<ICoreClientAPI>(api, provider);
+        var eventHandler = new VintageStoryAPI.Addons.EventHandler.EventHandler<ICoreClientAPI>(provider);
         var assembly = Assembly.GetExecutingAssembly();
         commandHandler.RegisterAll(assembly);
         eventHandler.RegisterAll(assembly);
