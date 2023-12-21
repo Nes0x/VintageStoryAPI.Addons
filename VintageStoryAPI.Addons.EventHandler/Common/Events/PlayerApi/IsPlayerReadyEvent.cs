@@ -2,7 +2,7 @@ using Vintagestory.API.Client;
 using Vintagestory.API.Common;
 using VintageStoryAPI.Addons.Common.Creators;
 
-namespace VintageStoryAPI.Addons.EventHandler.Common.Events;
+namespace VintageStoryAPI.Addons.EventHandler.Common.Events.PlayerApi;
 
 public abstract class IsPlayerReadyEvent<TApi> : BaseEvent<TApi> where TApi : ICoreClientAPI
 {
@@ -15,9 +15,6 @@ public abstract class IsPlayerReadyEvent<TApi> : BaseEvent<TApi> where TApi : IC
     public override void Subscribe(IInstancesCreator instancesCreator, IServiceProvider provider)
     {
         Api.Event.IsPlayerReady += (ref EnumHandling handling) =>
-        {
-            var instance = instancesCreator.CreateInstance(GetType(), provider);
-            return (bool)GetType().GetMethod("Handle")!.Invoke(instance, new object[] { handling })!;
-        };
+            (bool)ExecuteEvent(instancesCreator, provider, handling)!;
     }
 }

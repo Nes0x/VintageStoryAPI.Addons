@@ -10,12 +10,12 @@ using VintageStoryAPI.Addons.Common.Creators;
 
 namespace VintageStoryAPI.Addons.CommandHandler;
 
-public class CommandHandler<TApi> : IHandler<TApi> where TApi : ICoreAPI
+public class CommandHandler<TApi> : IHandler where TApi : ICoreAPI
 {
     private readonly TApi _api;
     private readonly string _commandErrorMessage;
     private readonly ICommandMethodInvoker _commandMethodInvoker;
-    private readonly IParser<Command<TApi>> _commandsParser;
+    private readonly ICommandsParser<Command<TApi>> _commandsCommandsParser;
     private readonly IServiceProvider? _provider;
 
     public CommandHandler(TApi api, ExtendedCommandArgumentParser? commandArgumentParser = null,
@@ -24,7 +24,7 @@ public class CommandHandler<TApi> : IHandler<TApi> where TApi : ICoreAPI
         _api = api;
         _provider = provider;
         commandArgumentParser ??= new ExtendedCommandArgumentParser(_api);
-        _commandsParser = new CommandsParser<TApi>(new CommandParametersParser(commandArgumentParser,
+        _commandsCommandsParser = new CommandsCommandsParser<TApi>(new CommandParametersParser(commandArgumentParser,
             new CommandParametersValidator()));
         _commandMethodInvoker = new CommandMethodInvoker(new InstancesCreator(), new CommandArgumentsParser());
         _commandErrorMessage = commandErrorMessage;
@@ -32,7 +32,7 @@ public class CommandHandler<TApi> : IHandler<TApi> where TApi : ICoreAPI
 
     public void RegisterAll(Assembly assembly)
     {
-        var commands = _commandsParser.Parse(assembly);
+        var commands = _commandsCommandsParser.Parse(assembly);
         foreach (var command in commands)
         {
             var chatCommand = _api.ChatCommands.Create(command.CommandProperties.Name);

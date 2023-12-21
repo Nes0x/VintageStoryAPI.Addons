@@ -3,7 +3,7 @@ using Vintagestory.API.Common;
 
 namespace VintageStoryAPI.Addons.Common;
 
-public interface IHandler<T> where T : ICoreAPI
+public interface IHandler
 {
     void RegisterAll(Assembly assembly);
 }

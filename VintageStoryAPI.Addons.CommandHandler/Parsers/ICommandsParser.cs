@@ -2,7 +2,7 @@
 
 namespace VintageStoryAPI.Addons.Common;
 
-public interface IParser<TReturn>
+public interface ICommandsParser<TReturn>
 {
     IEnumerable<TReturn> Parse(Assembly assembly);
 }

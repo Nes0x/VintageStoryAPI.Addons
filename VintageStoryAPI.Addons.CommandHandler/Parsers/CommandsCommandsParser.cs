@@ -7,11 +7,11 @@ using VintageStoryAPI.Addons.Common.Extensions;
 
 namespace VintageStoryAPI.Addons.CommandHandler.Parsers;
 
-internal class CommandsParser<TApi> : IParser<Command<TApi>> where TApi : ICoreAPI
+internal class CommandsCommandsParser<TApi> : ICommandsParser<Command<TApi>> where TApi : ICoreAPI
 {
     private readonly ICommandParametersParser _commandParametersParser;
 
-    public CommandsParser(ICommandParametersParser commandParametersParser)
+    public CommandsCommandsParser(ICommandParametersParser commandParametersParser)
     {
         _commandParametersParser = commandParametersParser;
     }

@@ -1,7 +1,7 @@
 using Vintagestory.API.Client;
 using VintageStoryAPI.Addons.Common.Creators;
 
-namespace VintageStoryAPI.Addons.EventHandler.Common.Events;
+namespace VintageStoryAPI.Addons.EventHandler.Common.Events.PlayerApi;
 
 public abstract class PlayerLeaveEvent<TApi> : BaseEvent<TApi> where TApi : ICoreClientAPI
 {
@@ -13,10 +13,6 @@ public abstract class PlayerLeaveEvent<TApi> : BaseEvent<TApi> where TApi : ICor
 
     public override void Subscribe(IInstancesCreator instancesCreator, IServiceProvider provider)
     {
-        Api.Event.PlayerLeave += player =>
-        {
-            var instance = instancesCreator.CreateInstance(GetType(), provider);
-            GetType().GetMethod("Handle")!.Invoke(instance, new object[] { player });
-        };
+        Api.Event.PlayerLeave += player => ExecuteEvent(instancesCreator, provider, player);
     }
 }
