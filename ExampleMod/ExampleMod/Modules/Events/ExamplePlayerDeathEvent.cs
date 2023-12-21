@@ -1,6 +1,5 @@
 ﻿using Vintagestory.API.Client;
-using VintageStoryAPI.Addons.EventHandler.Common.Events;
-using VintageStoryAPI.Addons.EventHandler.Common.Events.PlayerApi;
+using VintageStoryAPI.Addons.EventHandler.Events.ClientApi.Player;
 
 namespace ExampleMod.Modules.Events;
 

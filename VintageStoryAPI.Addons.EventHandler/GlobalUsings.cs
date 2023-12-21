@@ -1,0 +1,1 @@
+global using VintageStoryAPI.Addons.Common.Creators;

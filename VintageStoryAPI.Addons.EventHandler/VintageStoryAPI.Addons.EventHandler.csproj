@@ -16,8 +16,4 @@
         <ProjectReference Include="..\VintageStoryAPI.Addons.Common\VintageStoryAPI.Addons.Common.csproj"/>
     </ItemGroup>
 
-    <ItemGroup>
-      <Folder Include="Common\Events\ServerApi\" />
-    </ItemGroup>
-
 </Project>

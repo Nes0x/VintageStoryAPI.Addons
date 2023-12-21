@@ -1,9 +1,8 @@
 ﻿using System.Reflection;
 using Vintagestory.API.Common;
 using VintageStoryAPI.Addons.Common;
-using VintageStoryAPI.Addons.Common.Creators;
 using VintageStoryAPI.Addons.Common.Extensions;
-using VintageStoryAPI.Addons.EventHandler.Common.Events;
+using VintageStoryAPI.Addons.EventHandler.Events;
 
 namespace VintageStoryAPI.Addons.EventHandler;
 
