@@ -19,7 +19,7 @@ internal class CommandParametersParser : ICommandParametersParser
         _commandParametersValidator = commandParametersValidator;
     }
 
-    public IEnumerable<ICommandArgumentParser> Parse(IEnumerable<ParameterInfo> parameters)
+    public IEnumerable<ICommandArgumentParser> ParseAll(IEnumerable<ParameterInfo> parameters)
     {
         var parameterParsers = new List<ICommandArgumentParser>();
 
@@ -27,18 +27,18 @@ internal class CommandParametersParser : ICommandParametersParser
         {
             if (!_commandParametersValidator.HasRequiredAttribute(parameter, out var attribute))
                 throw new CustomAttributeFormatException("You must add one attribute to command parameter.");
-            parameterParsers.Add(GetCommandParameterFromAttribute(attribute!));
+            parameterParsers.Add(Parse(attribute!));
         }
 
         return parameterParsers;
     }
 
-    private ICommandArgumentParser GetCommandParameterFromAttribute(Attribute attribute)
+    private ICommandArgumentParser Parse(Attribute attribute)
     {
-        var parameters = attribute.ReadPropertiesByAttribute<RequiredParameterAttribute>().ToArray();
-        var methodName = GetMethodNameFromAttribute(attribute);
+        object?[] parameters = attribute.ReadProperties<RequiredParameterAttribute>().ToArray();
+        var methodName = GetMethodName(attribute);
         var arguments = _commandParametersValidator.IsOptional(attribute)
-            ? parameters.Concat(attribute.ReadPropertiesByAttribute<OptionalParameterAttribute>()).ToArray()
+            ? parameters.Concat(attribute.ReadProperties<OptionalParameterAttribute>()).ToArray()
             : parameters.ToArray();
         return (ICommandArgumentParser)
             _commandArgumentParser.GetType()
@@ -47,7 +47,7 @@ internal class CommandParametersParser : ICommandParametersParser
                 .Invoke(_commandArgumentParser, arguments)!;
     }
 
-    private string GetMethodNameFromAttribute(Attribute attribute)
+    private string GetMethodName(Attribute attribute)
     {
         var type = attribute.GetType();
         var propertyName = _commandParametersValidator.IsOptional(attribute) ? "OptionalMethodName" : "MethodName";

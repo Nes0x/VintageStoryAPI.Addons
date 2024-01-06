@@ -5,16 +5,16 @@ namespace VintageStoryAPI.Addons.CommandHandler.Common;
 
 internal class Command<TApi> where TApi : ICoreAPI
 {
-    public Command(CommandAttribute<TApi> commandProperties, MethodInfo commandHandlerMethod)
+    public Command(CommandAttribute<TApi> properties, MethodInfo handler)
     {
-        CommandProperties = commandProperties;
-        CommandHandlerMethod = commandHandlerMethod;
+        Properties = properties;
+        Handler = handler;
     }
 
 
-    public CommandAttribute<TApi> CommandProperties { get; }
-    public MethodInfo CommandHandlerMethod { get; }
-    public ICommandArgumentParser[]? CommandParameters { get; init; }
-    public MethodInfo[]? PreConditionMethods { get; init; }
+    public CommandAttribute<TApi> Properties { get; }
+    public MethodInfo Handler { get; }
+    public ICommandArgumentParser[]? Parameters { get; init; }
+    public MethodInfo[]? PreConditions { get; init; }
     public Command<TApi>[]? SubCommands { get; init; }
 }

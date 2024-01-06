@@ -10,8 +10,8 @@ public abstract class OnEntitySpawnEvent<TApi> : BaseEvent<TApi> where TApi : IC
 
     public abstract void Handle(Vintagestory.API.Common.Entities.Entity entity);
 
-    public override void Subscribe(IInstancesCreator instancesCreator, IServiceProvider provider)
+    public override void Subscribe(IInstanceCreator instanceCreator, IServiceProvider provider)
     {
-        Api.Event.OnEntitySpawn += entity => ExecuteEvent(instancesCreator, provider, entity);
+        Api.Event.OnEntitySpawn += entity => Execute(instanceCreator, provider, entity);
     }
 }

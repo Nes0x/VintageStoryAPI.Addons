@@ -11,9 +11,9 @@ public abstract class IsPlayerReadyEvent<TApi> : BaseEvent<TApi> where TApi : IC
 
     public abstract bool Handle(ref EnumHandling handling);
 
-    public override void Subscribe(IInstancesCreator instancesCreator, IServiceProvider provider)
+    public override void Subscribe(IInstanceCreator instanceCreator, IServiceProvider provider)
     {
         Api.Event.IsPlayerReady += (ref EnumHandling handling) =>
-            (bool)ExecuteEvent(instancesCreator, provider, handling)!;
+            (bool)Execute(instanceCreator, provider, handling)!;
     }
 }

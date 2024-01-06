@@ -16,7 +16,7 @@ public abstract class PlayerChatEvent<TApi> : BaseEvent<TApi> where TApi : ICore
         BoolRef consumed);
 
 
-    public override void Subscribe(IInstancesCreator instancesCreator, IServiceProvider provider)
+    public override void Subscribe(IInstanceCreator instanceCreator, IServiceProvider provider)
     {
         Api.Event.PlayerChat += (
                 IServerPlayer player,
@@ -25,8 +25,8 @@ public abstract class PlayerChatEvent<TApi> : BaseEvent<TApi> where TApi : ICore
         ref string data,
         BoolRef consumed
                 ) =>
-            ExecuteEvent(
-                instancesCreator,
+                Execute(
+                instanceCreator,
                 provider, player,
                 channelId,
                 message,

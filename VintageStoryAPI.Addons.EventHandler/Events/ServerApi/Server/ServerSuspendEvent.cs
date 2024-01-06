@@ -11,9 +11,9 @@ public abstract class ServerSuspendEvent<TApi> : BaseEvent<TApi> where TApi : IC
     public abstract EnumSuspendState Handle();
 
 
-    public override void Subscribe(IInstancesCreator instancesCreator, IServiceProvider provider)
+    public override void Subscribe(IInstanceCreator instanceCreator, IServiceProvider provider)
     {
         Api.Event.ServerSuspend += () =>
-            (EnumSuspendState)ExecuteEvent(instancesCreator, provider)!;
+            (EnumSuspendState)Execute(instanceCreator, provider)!;
     }
 }

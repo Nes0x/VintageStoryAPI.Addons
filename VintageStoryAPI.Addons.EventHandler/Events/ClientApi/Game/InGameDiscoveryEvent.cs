@@ -10,9 +10,9 @@ public abstract class InGameDiscoveryEvent<TApi> : BaseEvent<TApi> where TApi : 
 
     public abstract void Handle(object sender, string discoveryCode, string text);
 
-    public override void Subscribe(IInstancesCreator instancesCreator, IServiceProvider provider)
+    public override void Subscribe(IInstanceCreator instanceCreator, IServiceProvider provider)
     {
         Api.Event.InGameDiscovery += (sender, discoveryCode, text) =>
-            ExecuteEvent(instancesCreator, provider, sender, discoveryCode, text);
+            Execute(instanceCreator, provider, sender, discoveryCode, text);
     }
 }

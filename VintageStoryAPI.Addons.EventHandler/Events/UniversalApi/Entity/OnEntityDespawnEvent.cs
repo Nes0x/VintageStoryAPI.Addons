@@ -11,9 +11,9 @@ public abstract class OnEntityDespawnEvent<TApi> : BaseEvent<TApi> where TApi : 
 
     public abstract void Handle(Vintagestory.API.Common.Entities.Entity entity, EntityDespawnData reasonData);
 
-    public override void Subscribe(IInstancesCreator instancesCreator, IServiceProvider provider)
+    public override void Subscribe(IInstanceCreator instanceCreator, IServiceProvider provider)
     {
         Api.Event.OnEntityDespawn +=
-            (entity, reasonData) => ExecuteEvent(instancesCreator, provider, entity, reasonData);
+            (entity, reasonData) => Execute(instanceCreator, provider, entity, reasonData);
     }
 }

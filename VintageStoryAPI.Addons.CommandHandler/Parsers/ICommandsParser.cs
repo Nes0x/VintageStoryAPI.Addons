@@ -1,8 +1,8 @@
 ﻿using System.Reflection;
 
-namespace VintageStoryAPI.Addons.Common;
+namespace VintageStoryAPI.Addons.CommandHandler.Parsers;
 
 public interface ICommandsParser<TReturn>
 {
-    IEnumerable<TReturn> Parse(Assembly assembly);
+    IEnumerable<TReturn> ParseAll(Assembly assembly);
 }

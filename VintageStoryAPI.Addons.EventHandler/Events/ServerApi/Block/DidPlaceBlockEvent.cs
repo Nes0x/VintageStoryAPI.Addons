@@ -14,11 +14,11 @@ public abstract class DidPlaceBlockEvent<TApi> : BaseEvent<TApi> where TApi : IC
         BlockSelection blockSelection,
         ItemStack withItemStack);
 
-    public override void Subscribe(IInstancesCreator instancesCreator, IServiceProvider provider)
+    public override void Subscribe(IInstanceCreator instanceCreator, IServiceProvider provider)
     {
         Api.Event.DidPlaceBlock += (player,
             oldBlockId,
              blockSelection,
-            withItemStack) => ExecuteEvent(instancesCreator, provider, player, oldBlockId, blockSelection, withItemStack);
+            withItemStack) => Execute(instanceCreator, provider, player, oldBlockId, blockSelection, withItemStack);
     }
 }

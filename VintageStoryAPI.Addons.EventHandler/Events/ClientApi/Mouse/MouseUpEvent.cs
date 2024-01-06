@@ -10,8 +10,8 @@ public abstract class MouseUpEvent<TApi> : BaseEvent<TApi> where TApi : ICoreCli
 
     public abstract void Handle(MouseEvent mouseEvent);
 
-    public override void Subscribe(IInstancesCreator instancesCreator, IServiceProvider provider)
+    public override void Subscribe(IInstanceCreator instanceCreator, IServiceProvider provider)
     {
-        Api.Event.MouseUp += mouseEvent => ExecuteEvent(instancesCreator, provider, mouseEvent);
+        Api.Event.MouseUp += mouseEvent => Execute(instanceCreator, provider, mouseEvent);
     }
 }

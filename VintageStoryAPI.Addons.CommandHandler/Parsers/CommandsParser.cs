@@ -2,52 +2,51 @@
 using Vintagestory.API.Common;
 using VintageStoryAPI.Addons.CommandHandler.Common;
 using VintageStoryAPI.Addons.CommandHandler.Common.CommandParameters;
-using VintageStoryAPI.Addons.Common;
 using VintageStoryAPI.Addons.Common.Extensions;
 
 namespace VintageStoryAPI.Addons.CommandHandler.Parsers;
 
-internal class CommandsCommandsParser<TApi> : ICommandsParser<Command<TApi>> where TApi : ICoreAPI
+internal class CommandsParser<TApi> : ICommandsParser<Command<TApi>> where TApi : ICoreAPI
 {
     private readonly ICommandParametersParser _commandParametersParser;
 
-    public CommandsCommandsParser(ICommandParametersParser commandParametersParser)
+    public CommandsParser(ICommandParametersParser commandParametersParser)
     {
         _commandParametersParser = commandParametersParser;
     }
 
-    public IEnumerable<Command<TApi>> Parse(Assembly assembly)
+    public IEnumerable<Command<TApi>> ParseAll(Assembly assembly)
     {
-        var commandMethods = assembly
-            .GetSpecificMethodsFromTypes<CommandModule>(method =>
+        var commandHandlers = assembly
+            .GetSpecificMethods<CommandModule>(method =>
                 method.GetCustomAttribute(typeof(CommandAttribute<TApi>), true) is not null
                 && method.GetCustomAttribute(typeof(SubCommandAttribute), true) is null);
-        var commands = commandMethods.Select(GetCommand);
+        var commands = commandHandlers.Select(Parse);
         return commands;
     }
 
-    private Command<TApi> GetCommand(MethodInfo commandMethod)
+    private Command<TApi> Parse(MethodInfo commandHandler)
     {
-        var commandAttribute = commandMethod.GetCustomAttribute<CommandAttribute<TApi>>()!;
-        var methodParameters = commandMethod.GetParameters().Where(parameter =>
+        var commandAttribute = commandHandler.GetCustomAttribute<CommandAttribute<TApi>>()!;
+        var handlerParameters = commandHandler.GetParameters().Where(parameter =>
             parameter.GetCustomAttribute(typeof(CommandParameterAttribute), true) is not null).AsEnumerable();
-        var commandParameters = _commandParametersParser.Parse(
-            methodParameters.Where(methodParameter =>
+        var commandParameters = _commandParametersParser.ParseAll(
+            handlerParameters.Where(methodParameter =>
                 !methodParameter.ParameterType.IsAssignableTo(typeof(ICoreAPI))));
-        return new Command<TApi>(commandAttribute, commandMethod)
+        return new Command<TApi>(commandAttribute, commandHandler)
         {
-            CommandParameters = commandParameters.ToArray(),
-            PreConditionMethods = commandMethod.GetCustomAttributes()
+            Parameters = commandParameters.ToArray(),
+            PreConditions = commandHandler.GetCustomAttributes()
                 .Where(attribute => attribute.GetType().IsAssignableTo(typeof(PreConditionAttribute<TApi>)))
                 .Select(attribute => attribute.GetType().GetMethod("Handle")!)
                 .ToArray(),
-            SubCommands = commandMethod.DeclaringType!.GetSpecificMethodsFromType(method =>
+            SubCommands = commandHandler.DeclaringType!.GetSpecificMethods(method =>
             {
                 if (method.GetCustomAttribute(typeof(SubCommandAttribute), true) is null
                     || method.GetCustomAttribute(typeof(CommandAttribute<TApi>), true) is null) return false;
                 var attribute = method.GetCustomAttribute<SubCommandAttribute>()!;
                 return attribute.BaseCommandName == commandAttribute.Name;
-            }).Select(GetCommand).ToArray()
+            }).Select(Parse).ToArray()
         };
     }
 }

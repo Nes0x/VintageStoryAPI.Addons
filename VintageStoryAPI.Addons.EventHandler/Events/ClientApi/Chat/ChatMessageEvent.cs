@@ -14,11 +14,11 @@ public abstract class ChatMessageEvent<TApi> : BaseEvent<TApi> where TApi : ICor
         EnumChatType chatType,
         string data);
 
-    public override void Subscribe(IInstancesCreator instancesCreator, IServiceProvider provider)
+    public override void Subscribe(IInstanceCreator instanceCreator, IServiceProvider provider)
     {
         Api.Event.ChatMessage += (groupId,
             message,
             chatType,
-            data) => ExecuteEvent(instancesCreator, provider, groupId, message, chatType, data);
+            data) => Execute(instanceCreator, provider, groupId, message, chatType, data);
     }
 }

@@ -10,8 +10,8 @@ public abstract class FileDropEvent<TApi> : BaseEvent<TApi> where TApi : ICoreCl
 
     public abstract void Handle(FileDropEvent fileDropEvent);
 
-    public override void Subscribe(IInstancesCreator instancesCreator, IServiceProvider provider)
+    public override void Subscribe(IInstanceCreator instanceCreator, IServiceProvider provider)
     {
-        Api.Event.FileDrop += fileDropEvent => ExecuteEvent(instancesCreator, provider, fileDropEvent);
+        Api.Event.FileDrop += fileDropEvent => Execute(instanceCreator, provider, fileDropEvent);
     }
 }

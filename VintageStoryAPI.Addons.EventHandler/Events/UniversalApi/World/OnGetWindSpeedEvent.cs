@@ -11,9 +11,9 @@ public abstract class OnGetWindSpeedEvent<TApi> : BaseEvent<TApi> where TApi : I
 
     public abstract void Handle(Vec3d position, ref Vec3d windSpeed);
 
-    public override void Subscribe(IInstancesCreator instancesCreator, IServiceProvider provider)
+    public override void Subscribe(IInstanceCreator instanceCreator, IServiceProvider provider)
     {
         Api.Event.OnGetWindSpeed += (Vec3d position, ref Vec3d windSpeed) =>
-            ExecuteEvent(instancesCreator, provider, position, windSpeed);
+            Execute(instanceCreator, provider, position, windSpeed);
     }
 }

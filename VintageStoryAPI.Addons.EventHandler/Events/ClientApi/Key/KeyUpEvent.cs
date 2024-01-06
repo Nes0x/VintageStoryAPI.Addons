@@ -10,8 +10,8 @@ public abstract class KeyUpEvent<TApi> : BaseEvent<TApi> where TApi : ICoreClien
 
     public abstract void Handle(KeyEvent keyEvent);
 
-    public override void Subscribe(IInstancesCreator instancesCreator, IServiceProvider provider)
+    public override void Subscribe(IInstanceCreator instanceCreator, IServiceProvider provider)
     {
-        Api.Event.KeyUp += keyEvent => ExecuteEvent(instancesCreator, provider, keyEvent);
+        Api.Event.KeyUp += keyEvent => Execute(instanceCreator, provider, keyEvent);
     }
 }

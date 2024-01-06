@@ -10,8 +10,8 @@ public abstract class LeftWorldEvent<TApi> : BaseEvent<TApi> where TApi : ICoreC
 
     public abstract void Handle();
 
-    public override void Subscribe(IInstancesCreator instancesCreator, IServiceProvider provider)
+    public override void Subscribe(IInstanceCreator instanceCreator, IServiceProvider provider)
     {
-        Api.Event.LeftWorld += () => ExecuteEvent(instancesCreator, provider);
+        Api.Event.LeftWorld += () => Execute(instanceCreator, provider);
     }
 }

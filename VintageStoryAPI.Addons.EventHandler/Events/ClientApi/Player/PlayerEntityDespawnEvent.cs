@@ -10,8 +10,8 @@ public abstract class PlayerEntityDespawnEvent<TApi> : BaseEvent<TApi> where TAp
 
     public abstract void Handle(IClientPlayer player);
 
-    public override void Subscribe(IInstancesCreator instancesCreator, IServiceProvider provider)
+    public override void Subscribe(IInstanceCreator instanceCreator, IServiceProvider provider)
     {
-        Api.Event.PlayerEntityDespawn += player => ExecuteEvent(instancesCreator, provider, player);
+        Api.Event.PlayerEntityDespawn += player => Execute(instanceCreator, provider, player);
     }
 }

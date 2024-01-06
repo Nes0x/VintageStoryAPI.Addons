@@ -11,9 +11,9 @@ public abstract class PlayerLeaveEvent<TApi> : BaseEvent<TApi> where TApi : ICor
     public abstract void Handle(IServerPlayer player);
 
 
-    public override void Subscribe(IInstancesCreator instancesCreator, IServiceProvider provider)
+    public override void Subscribe(IInstanceCreator instanceCreator, IServiceProvider provider)
     {
         Api.Event.PlayerLeave += player =>
-            ExecuteEvent(instancesCreator, provider, player);
+            Execute(instanceCreator, provider, player);
     }
 }

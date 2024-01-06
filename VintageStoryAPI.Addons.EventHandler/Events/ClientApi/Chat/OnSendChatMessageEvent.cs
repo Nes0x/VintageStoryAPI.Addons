@@ -13,10 +13,10 @@ public abstract class OnSendChatMessageEvent<TApi> : BaseEvent<TApi> where TApi 
         ref string message,
         ref EnumHandling handled);
 
-    public override void Subscribe(IInstancesCreator instancesCreator, IServiceProvider provider)
+    public override void Subscribe(IInstanceCreator instanceCreator, IServiceProvider provider)
     {
         Api.Event.OnSendChatMessage += (int groupId,
             ref string message,
-            ref EnumHandling handled) => ExecuteEvent(instancesCreator, provider, groupId, message, handled);
+            ref EnumHandling handled) => Execute(instanceCreator, provider, groupId, message, handled);
     }
 }

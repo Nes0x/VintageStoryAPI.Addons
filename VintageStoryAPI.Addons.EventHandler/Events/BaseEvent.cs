@@ -11,12 +11,12 @@ public abstract class BaseEvent<TApi> where TApi : ICoreAPI
 
     protected TApi Api { get; }
 
-    public abstract void Subscribe(IInstancesCreator instancesCreator, IServiceProvider provider);
+    public abstract void Subscribe(IInstanceCreator instanceCreator, IServiceProvider provider);
 
-    protected object? ExecuteEvent(IInstancesCreator instancesCreator, IServiceProvider provider,
+    protected object? Execute(IInstanceCreator instanceCreator, IServiceProvider provider,
         params object[] arguments)
     {
-        var instance = instancesCreator.CreateInstance(GetType(), provider);
+        var instance =  instanceCreator.Create(GetType(), provider);
         return GetType().GetMethod("Handle")!.Invoke(instance, arguments);
     }
 }

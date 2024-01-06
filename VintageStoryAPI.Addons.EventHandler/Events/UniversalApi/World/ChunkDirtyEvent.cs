@@ -13,10 +13,10 @@ public abstract class ChunkDirtyEvent<TApi> : BaseEvent<TApi> where TApi : ICore
         IWorldChunk chunk,
         EnumChunkDirtyReason reason);
 
-    public override void Subscribe(IInstancesCreator instancesCreator, IServiceProvider provider)
+    public override void Subscribe(IInstanceCreator instanceCreator, IServiceProvider? provider)
     {
         Api.Event.ChunkDirty += (chunkCoordinates,
             chunk,
-            reason) => ExecuteEvent(instancesCreator, provider, chunkCoordinates, chunk, reason);
+            reason) => Execute(instanceCreator, provider, chunkCoordinates, chunk, reason);
     }
 }

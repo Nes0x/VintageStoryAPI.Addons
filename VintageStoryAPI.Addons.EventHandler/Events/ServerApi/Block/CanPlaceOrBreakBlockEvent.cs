@@ -13,14 +13,14 @@ public abstract class CanPlaceOrBreakBlockEvent<TApi> : BaseEvent<TApi> where TA
         BlockSelection blockSelection,
         out string claimant);
 
-    public override void Subscribe(IInstancesCreator instancesCreator, IServiceProvider provider)
+    public override void Subscribe(IInstanceCreator instanceCreator, IServiceProvider provider)
     {
         Api.Event.CanPlaceOrBreakBlock += ( IServerPlayer player,
             BlockSelection blockSelection,
             out string claimant) =>
         {
             claimant = null!;
-            return (bool)ExecuteEvent(instancesCreator, provider, player, blockSelection, claimant)!;
+            return (bool)Execute(instanceCreator, provider, player, blockSelection, claimant)!;
         };
     }
 }

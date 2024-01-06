@@ -10,8 +10,8 @@ public abstract class ReloadShaderEvent<TApi> : BaseEvent<TApi> where TApi : ICo
 
     public abstract bool Handle();
 
-    public override void Subscribe(IInstancesCreator instancesCreator, IServiceProvider provider)
+    public override void Subscribe(IInstanceCreator instanceCreator, IServiceProvider provider)
     {
-        Api.Event.ReloadShader += () => (bool)ExecuteEvent(instancesCreator, provider)!;
+        Api.Event.ReloadShader += () => (bool)Execute(instanceCreator, provider)!;
     }
 }

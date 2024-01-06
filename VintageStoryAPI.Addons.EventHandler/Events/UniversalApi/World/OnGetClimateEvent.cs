@@ -14,12 +14,12 @@ public abstract class OnGetClimateEvent<TApi> : BaseEvent<TApi> where TApi : ICo
         EnumGetClimateMode mode,
         double totalDays);
 
-    public override void Subscribe(IInstancesCreator instancesCreator, IServiceProvider provider)
+    public override void Subscribe(IInstanceCreator instanceCreator, IServiceProvider provider)
     {
         Api.Event.OnGetClimate += (ref ClimateCondition climate,
                 BlockPos blockPosition,
                 EnumGetClimateMode climateMode,
                 double totalDays) =>
-            ExecuteEvent(instancesCreator, provider, climate, blockPosition, climateMode, totalDays);
+            Execute(instanceCreator, provider, climate, blockPosition, climateMode, totalDays);
     }
 }

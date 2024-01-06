@@ -10,8 +10,8 @@ public abstract class BlockTexturesLoadedEvent<TApi> : BaseEvent<TApi> where TAp
 
     public abstract void Handle();
 
-    public override void Subscribe(IInstancesCreator instancesCreator, IServiceProvider provider)
+    public override void Subscribe(IInstanceCreator instanceCreator, IServiceProvider provider)
     {
-        Api.Event.BlockTexturesLoaded += () => ExecuteEvent(instancesCreator, provider);
+        Api.Event.BlockTexturesLoaded += () => Execute(instanceCreator, provider);
     }
 }

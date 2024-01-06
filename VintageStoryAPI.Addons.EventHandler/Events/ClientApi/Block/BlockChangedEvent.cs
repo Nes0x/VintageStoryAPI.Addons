@@ -10,8 +10,8 @@ public abstract class BlockChangedEvent<TApi> : BaseEvent<TApi> where TApi : ICo
 
     public abstract void Handle(Vintagestory.API.Common.Block block, Vintagestory.API.Common.Block oldBlock);
 
-    public override void Subscribe(IInstancesCreator instancesCreator, IServiceProvider provider)
+    public override void Subscribe(IInstanceCreator instanceCreator, IServiceProvider provider)
     {
-        Api.Event.BlockChanged += (block, oldBlock) => ExecuteEvent(instancesCreator, provider, block, oldBlock);
+        Api.Event.BlockChanged += (block, oldBlock) => Execute(instanceCreator, provider, block, oldBlock);
     }
 }

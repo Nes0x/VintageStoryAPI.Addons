@@ -11,8 +11,8 @@ public abstract class DidUseBlockEvent<TApi> : BaseEvent<TApi> where TApi : ICor
 
     public abstract void Handle(IServerPlayer player, BlockSelection blockSelection);
 
-    public override void Subscribe(IInstancesCreator instancesCreator, IServiceProvider provider)
+    public override void Subscribe(IInstanceCreator instanceCreator, IServiceProvider provider)
     {
-        Api.Event.DidUseBlock += (player, blockSelection) => ExecuteEvent(instancesCreator, provider, player, blockSelection);
+        Api.Event.DidUseBlock += (player, blockSelection) => Execute(instanceCreator, provider, player, blockSelection);
     }
 }

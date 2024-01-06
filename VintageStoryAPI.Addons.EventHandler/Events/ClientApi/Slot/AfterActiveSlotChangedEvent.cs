@@ -11,9 +11,9 @@ public abstract class AfterActiveSlotChangedEvent<TApi> : BaseEvent<TApi> where 
 
     public abstract void Handle(ActiveSlotChangeEventArgs activeSlotChangeEventArgs);
 
-    public override void Subscribe(IInstancesCreator instancesCreator, IServiceProvider provider)
+    public override void Subscribe(IInstanceCreator instanceCreator, IServiceProvider provider)
     {
         Api.Event.AfterActiveSlotChanged += activeSlotChangeEventArgs =>
-            ExecuteEvent(instancesCreator, provider, activeSlotChangeEventArgs);
+            Execute(instanceCreator, provider, activeSlotChangeEventArgs);
     }
 }

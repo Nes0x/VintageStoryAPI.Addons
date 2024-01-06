@@ -11,9 +11,9 @@ public abstract class MapRegionLoadedEvent<TApi> : BaseEvent<TApi> where TApi : 
 
     public abstract bool Handle(Vec2i mapCoordinates, IMapRegion region);
 
-    public override void Subscribe(IInstancesCreator instancesCreator, IServiceProvider provider)
+    public override void Subscribe(IInstanceCreator instanceCreator, IServiceProvider provider)
     {
         Api.Event.MapRegionLoaded += (mapCoordinates, region) =>
-            ExecuteEvent(instancesCreator, provider, mapCoordinates, region);
+            Execute(instanceCreator, provider, mapCoordinates, region);
     }
 }

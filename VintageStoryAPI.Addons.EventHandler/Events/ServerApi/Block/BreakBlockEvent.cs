@@ -15,12 +15,12 @@ public abstract class BreakBlockEvent<TApi> : BaseEvent<TApi> where TApi : ICore
         ref EnumHandling handling);
 
 
-    public override void Subscribe(IInstancesCreator instancesCreator, IServiceProvider provider)
+    public override void Subscribe(IInstanceCreator instanceCreator, IServiceProvider provider)
     {
         Api.Event.BreakBlock += (IServerPlayer player,
                 BlockSelection blockSelection,
                 ref float dropQuantityMultiplier,
                 ref EnumHandling handling) =>
-            ExecuteEvent(instancesCreator, provider, player, blockSelection, dropQuantityMultiplier, handling);
+            Execute(instanceCreator, provider, player, blockSelection, dropQuantityMultiplier, handling);
     }
 }

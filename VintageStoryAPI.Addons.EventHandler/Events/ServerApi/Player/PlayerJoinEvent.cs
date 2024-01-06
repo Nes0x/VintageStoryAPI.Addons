@@ -11,9 +11,9 @@ public abstract class PlayerJoinEvent<TApi> : BaseEvent<TApi> where TApi : ICore
     public abstract void Handle(IServerPlayer player);
 
 
-    public override void Subscribe(IInstancesCreator instancesCreator, IServiceProvider provider)
+    public override void Subscribe(IInstanceCreator instanceCreator, IServiceProvider provider)
     {
         Api.Event.PlayerJoin += player =>
-            ExecuteEvent(instancesCreator, provider, player);
+            Execute(instanceCreator, provider, player);
     }
 }

@@ -15,12 +15,12 @@ public abstract class BeginChunkColumnLoadChunkThreadEvent<TApi> : BaseEvent<TAp
         IWorldChunk[] chunks);
 
 
-    public override void Subscribe(IInstancesCreator instancesCreator, IServiceProvider provider)
+    public override void Subscribe(IInstanceCreator instanceCreator, IServiceProvider provider)
     {
         Api.Event.BeginChunkColumnLoadChunkThread += (mapChunk,
                 chunkX,
                 chunkZ,
                 chunks) =>
-            ExecuteEvent(instancesCreator, provider, mapChunk, chunkX, chunkZ, chunks);
+            Execute(instanceCreator, provider, mapChunk, chunkX, chunkZ, chunks);
     }
 }

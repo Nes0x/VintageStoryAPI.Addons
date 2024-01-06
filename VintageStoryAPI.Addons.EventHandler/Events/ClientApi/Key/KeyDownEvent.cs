@@ -10,8 +10,8 @@ public abstract class KeyDownEvent<TApi> : BaseEvent<TApi> where TApi : ICoreCli
 
     public abstract void Handle(KeyEvent keyEvent);
 
-    public override void Subscribe(IInstancesCreator instancesCreator, IServiceProvider provider)
+    public override void Subscribe(IInstanceCreator instanceCreator, IServiceProvider provider)
     {
-        Api.Event.KeyDown += keyEvent => ExecuteEvent(instancesCreator, provider, keyEvent);
+        Api.Event.KeyDown += keyEvent => Execute(instanceCreator, provider, keyEvent);
     }
 }

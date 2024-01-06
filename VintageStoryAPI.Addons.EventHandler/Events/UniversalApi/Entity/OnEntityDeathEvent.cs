@@ -10,9 +10,9 @@ public abstract class OnEntityDeathEvent<TApi> : BaseEvent<TApi> where TApi : IC
 
     public abstract void Handle(Vintagestory.API.Common.Entities.Entity entity, DamageSource damageSource);
 
-    public override void Subscribe(IInstancesCreator instancesCreator, IServiceProvider provider)
+    public override void Subscribe(IInstanceCreator instanceCreator, IServiceProvider provider)
     {
         Api.Event.OnEntityDeath +=
-            (entity, damageSource) => ExecuteEvent(instancesCreator, provider, entity, damageSource);
+            (entity, damageSource) => Execute(instanceCreator, provider, entity, damageSource);
     }
 }

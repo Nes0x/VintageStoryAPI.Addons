@@ -5,5 +5,5 @@ namespace VintageStoryAPI.Addons.CommandHandler.Parsers;
 
 internal interface ICommandParametersParser
 {
-    IEnumerable<ICommandArgumentParser> Parse(IEnumerable<ParameterInfo> parameters);
+    IEnumerable<ICommandArgumentParser> ParseAll(IEnumerable<ParameterInfo> parameters);
 }

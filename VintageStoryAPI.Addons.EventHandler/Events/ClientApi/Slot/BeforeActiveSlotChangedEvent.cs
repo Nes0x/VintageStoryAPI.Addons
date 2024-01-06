@@ -11,9 +11,9 @@ public abstract class BeforeActiveSlotChangedEvent<TApi> : BaseEvent<TApi> where
 
     public abstract EnumHandling Handle(ActiveSlotChangeEventArgs activeSlotChangeEventArgs);
 
-    public override void Subscribe(IInstancesCreator instancesCreator, IServiceProvider provider)
+    public override void Subscribe(IInstanceCreator instanceCreator, IServiceProvider provider)
     {
         Api.Event.BeforeActiveSlotChanged += activeSlotChangeEventArgs =>
-            (EnumHandling)ExecuteEvent(instancesCreator, provider, activeSlotChangeEventArgs)!;
+            (EnumHandling)Execute(instanceCreator, provider, activeSlotChangeEventArgs)!;
     }
 }

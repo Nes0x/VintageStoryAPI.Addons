@@ -17,12 +17,12 @@ public abstract class OnTrySpawnEntityEvent<TApi> : BaseEvent<TApi> where TApi :
         long herdId);
 
 
-    public override void Subscribe(IInstancesCreator instancesCreator, IServiceProvider provider)
+    public override void Subscribe(IInstanceCreator instanceCreator, IServiceProvider provider)
     {
         Api.Event.OnTrySpawnEntity += (IBlockAccessor blockAccessor,
                 ref EntityProperties properties,
                 Vec3d spawnPosition,
                 long herdId) =>
-            (bool)ExecuteEvent(instancesCreator, provider, blockAccessor, properties, spawnPosition, herdId)!;
+            (bool)Execute(instanceCreator, provider, blockAccessor, properties, spawnPosition, herdId)!;
     }
 }

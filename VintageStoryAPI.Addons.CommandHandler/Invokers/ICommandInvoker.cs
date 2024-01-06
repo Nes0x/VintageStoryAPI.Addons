@@ -4,9 +4,9 @@ using VintageStoryAPI.Addons.CommandHandler.Common;
 
 namespace VintageStoryAPI.Addons.CommandHandler.Invokers;
 
-internal interface ICommandMethodInvoker
+internal interface ICommandInvoker
 {
-    CommandMethodInvokerResult Invoke<T>(MethodInfo method, TextCommandCallingArgs context, T api,
+    CommandInvokeResult Invoke<T>(MethodInfo method, TextCommandCallingArgs context, T api,
         IServiceProvider? provider = null)
         where T : ICoreAPI;
 }

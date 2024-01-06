@@ -19,7 +19,7 @@ public abstract class OnPlayerInteractEntityEvent<TApi> : BaseEvent<TApi> where 
         ref EnumHandling handling);
 
 
-    public override void Subscribe(IInstancesCreator instancesCreator, IServiceProvider provider)
+    public override void Subscribe(IInstanceCreator instanceCreator, IServiceProvider provider)
     {
         Api.Event.OnPlayerInteractEntity += (Entity entity,
                 IPlayer player,
@@ -27,6 +27,6 @@ public abstract class OnPlayerInteractEntityEvent<TApi> : BaseEvent<TApi> where 
                 Vec3d hitPosition,
                 int mode,
                 ref EnumHandling handling) =>
-            ExecuteEvent(instancesCreator, provider, entity, player, slot, hitPosition, mode, handling);
+            Execute(instanceCreator, provider, entity, player, slot, hitPosition, mode, handling);
     }
 }

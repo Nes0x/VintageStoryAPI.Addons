@@ -10,8 +10,8 @@ public abstract class ReloadTexturesEvent<TApi> : BaseEvent<TApi> where TApi : I
 
     public abstract void Handle();
 
-    public override void Subscribe(IInstancesCreator instancesCreator, IServiceProvider provider)
+    public override void Subscribe(IInstanceCreator instanceCreator, IServiceProvider provider)
     {
-        Api.Event.ReloadTextures += () => ExecuteEvent(instancesCreator, provider);
+        Api.Event.ReloadTextures += () => Execute(instanceCreator, provider);
     }
 }

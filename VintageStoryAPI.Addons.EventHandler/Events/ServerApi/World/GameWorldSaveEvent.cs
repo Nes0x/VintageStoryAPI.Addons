@@ -11,9 +11,9 @@ public abstract class GameWorldSaveEvent<TApi> : BaseEvent<TApi> where TApi : IC
     public abstract void Handle();
 
 
-    public override void Subscribe(IInstancesCreator instancesCreator, IServiceProvider provider)
+    public override void Subscribe(IInstanceCreator instanceCreator, IServiceProvider provider)
     {
         Api.Event.GameWorldSave += () =>
-            ExecuteEvent(instancesCreator, provider);
+            Execute(instanceCreator, provider);
     }
 }

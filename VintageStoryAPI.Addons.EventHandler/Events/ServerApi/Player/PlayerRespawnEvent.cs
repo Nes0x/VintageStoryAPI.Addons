@@ -11,9 +11,9 @@ public abstract class PlayerRespawnEvent<TApi> : BaseEvent<TApi> where TApi : IC
     public abstract void Handle(IServerPlayer player);
 
 
-    public override void Subscribe(IInstancesCreator instancesCreator, IServiceProvider provider)
+    public override void Subscribe(IInstanceCreator instanceCreator, IServiceProvider provider)
     {
         Api.Event.PlayerRespawn += player =>
-            ExecuteEvent(instancesCreator, provider, player);
+            Execute(instanceCreator, provider, player);
     }
 }

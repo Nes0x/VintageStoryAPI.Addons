@@ -10,8 +10,8 @@ public abstract class ReloadShapesEvent<TApi> : BaseEvent<TApi> where TApi : ICo
 
     public abstract void Handle();
 
-    public override void Subscribe(IInstancesCreator instancesCreator, IServiceProvider provider)
+    public override void Subscribe(IInstanceCreator instanceCreator, IServiceProvider provider)
     {
-        Api.Event.ReloadShapes += () => ExecuteEvent(instancesCreator, provider);
+        Api.Event.ReloadShapes += () => Execute(instanceCreator, provider);
     }
 }

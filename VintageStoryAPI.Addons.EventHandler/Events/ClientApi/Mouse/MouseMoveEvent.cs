@@ -10,8 +10,8 @@ public abstract class MouseMoveEvent<TApi> : BaseEvent<TApi> where TApi : ICoreC
 
     public abstract void Handle(MouseEvent mouseEvent);
 
-    public override void Subscribe(IInstancesCreator instancesCreator, IServiceProvider provider)
+    public override void Subscribe(IInstanceCreator instanceCreator, IServiceProvider provider)
     {
-        Api.Event.MouseMove += mouseEvent => ExecuteEvent(instancesCreator, provider, mouseEvent);
+        Api.Event.MouseMove += mouseEvent => Execute(instanceCreator, provider, mouseEvent);
     }
 }

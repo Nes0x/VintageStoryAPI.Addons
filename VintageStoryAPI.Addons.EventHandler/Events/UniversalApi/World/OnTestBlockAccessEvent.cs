@@ -14,14 +14,14 @@ public abstract class OnTestBlockAccessEvent<TApi> : BaseEvent<TApi> where TApi 
         string claimant,
         EnumWorldAccessResponse response);
 
-    public override void Subscribe(IInstancesCreator instancesCreator, IServiceProvider provider)
+    public override void Subscribe(IInstanceCreator instanceCreator, IServiceProvider provider)
     {
         Api.Event.OnTestBlockAccess += (player,
                 blockSelection,
                 accessType,
                 claimant,
                 response)
-            => (EnumWorldAccessResponse)ExecuteEvent(instancesCreator, provider, player,
+            => (EnumWorldAccessResponse)Execute(instanceCreator, provider, player,
                 blockSelection, accessType, claimant, response)!;
     }
 }

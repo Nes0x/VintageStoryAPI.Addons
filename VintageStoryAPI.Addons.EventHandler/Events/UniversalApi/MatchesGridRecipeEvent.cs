@@ -13,11 +13,11 @@ public abstract class MatchesGridRecipeEvent<TApi> : BaseEvent<TApi> where TApi 
         ItemSlot[] ingredients,
         int gridWidth);
 
-    public override void Subscribe(IInstancesCreator instancesCreator, IServiceProvider provider)
+    public override void Subscribe(IInstanceCreator instanceCreator, IServiceProvider provider)
     {
         Api.Event.MatchesGridRecipe += (player,
             recipe,
             ingredients,
-            gridWidth) => (bool)ExecuteEvent(instancesCreator, provider, player, recipe, ingredients, gridWidth)!;
+            gridWidth) => (bool)Execute(instanceCreator, provider, player, recipe, ingredients, gridWidth)!;
     }
 }

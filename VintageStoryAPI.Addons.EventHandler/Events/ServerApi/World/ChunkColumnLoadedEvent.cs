@@ -13,9 +13,9 @@ public abstract class ChunkColumnLoadedEvent<TApi> : BaseEvent<TApi> where TApi 
     public abstract void Handle(Vec2i chunkCoordinates, IWorldChunk[] chunks);
 
 
-    public override void Subscribe(IInstancesCreator instancesCreator, IServiceProvider provider)
+    public override void Subscribe(IInstanceCreator instanceCreator, IServiceProvider provider)
     {
         Api.Event.ChunkColumnLoaded += (chunkCoordinates, chunks) =>
-            ExecuteEvent(instancesCreator, provider, chunkCoordinates, chunks);
+            Execute(instanceCreator, provider, chunkCoordinates, chunks);
     }
 }

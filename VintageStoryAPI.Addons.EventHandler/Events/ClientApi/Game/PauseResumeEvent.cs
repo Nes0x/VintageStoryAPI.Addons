@@ -10,8 +10,8 @@ public abstract class PauseResumeEvent<TApi> : BaseEvent<TApi> where TApi : ICor
 
     public abstract void Handle(bool isPaused);
 
-    public override void Subscribe(IInstancesCreator instancesCreator, IServiceProvider provider)
+    public override void Subscribe(IInstanceCreator instanceCreator, IServiceProvider provider)
     {
-        Api.Event.PauseResume += isPaused => ExecuteEvent(instancesCreator, provider, isPaused);
+        Api.Event.PauseResume += isPaused => Execute(instanceCreator, provider, isPaused);
     }
 }

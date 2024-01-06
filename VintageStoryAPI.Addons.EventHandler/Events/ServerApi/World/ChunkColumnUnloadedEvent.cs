@@ -12,9 +12,9 @@ public abstract class ChunkColumnUnloadedEvent<TApi> : BaseEvent<TApi> where TAp
     public abstract void Handle(Vec3i chunkCoordinates);
 
 
-    public override void Subscribe(IInstancesCreator instancesCreator, IServiceProvider provider)
+    public override void Subscribe(IInstanceCreator instanceCreator, IServiceProvider provider)
     {
         Api.Event.ChunkColumnUnloaded += (chunkCoordinates) =>
-            ExecuteEvent(instancesCreator, provider, chunkCoordinates);
+            Execute(instanceCreator, provider, chunkCoordinates);
     }
 }
