@@ -1,4 +1,4 @@
-﻿namespace VintageStoryAPI.Addons.CommandHandler.Common;
+﻿namespace VintageStoryAPI.Addons.CommandHandler.Common.Attributes;
 
 [AttributeUsage(AttributeTargets.Method)]
 public class SubCommandAttribute : Attribute

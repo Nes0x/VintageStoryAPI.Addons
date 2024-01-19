@@ -9,7 +9,7 @@ public abstract class BeginChunkColumnLoadChunkThreadEvent<TApi> : BaseEvent<TAp
     {
     }
 
-    public abstract void Handle(  IServerMapChunk mapChunk,
+    public abstract void Handle(IServerMapChunk mapChunk,
         int chunkX,
         int chunkZ,
         IWorldChunk[] chunks);

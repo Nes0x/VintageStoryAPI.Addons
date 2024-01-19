@@ -1,6 +1,7 @@
 ﻿using System.Reflection;
 using Vintagestory.API.Common;
 using VintageStoryAPI.Addons.CommandHandler.Common;
+using VintageStoryAPI.Addons.CommandHandler.Common.Models;
 using VintageStoryAPI.Addons.CommandHandler.Parsers;
 
 namespace VintageStoryAPI.Addons.CommandHandler.Factories;
@@ -20,9 +21,8 @@ internal class ParsedInstanceFactory
         where
         TInstance : class, IContext
     {
-        return new ParsedInstance<TInstance>(handler,
-            _commandArgumentParser.ParseAll(context.Parsers, handler.GetParameters()),
-            _instanceFactory.Create<TInstance>(handler.DeclaringType!, context));
+        var arguments = _commandArgumentParser.ParseAll(context.Parsers, handler.GetParameters());
+        var instance = _instanceFactory.Create<TInstance>(handler.DeclaringType!, context);
+        return new ParsedInstance<TInstance>(handler, arguments, instance);
     }
-
 }

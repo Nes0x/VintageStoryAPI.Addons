@@ -17,10 +17,11 @@ public class InstanceCreator : IInstanceCreator
             .Where(service => service is not null)
             .ToArray();
         if (services.Length != constructor.GetParameters().Length)
-            throw new TargetParameterCountException("Constructor parameters length don't match services length from provider.");
+            throw new TargetParameterCountException(
+                "Constructor parameters length don't match services length from provider.");
         return Activator.CreateInstance(type, services);
     }
-    
+
     private object? CreateParameterless(Type type)
     {
         var constructor = type.GetConstructor(Type.EmptyTypes);

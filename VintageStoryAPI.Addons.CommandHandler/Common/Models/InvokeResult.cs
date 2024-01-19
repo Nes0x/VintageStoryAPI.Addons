@@ -1,6 +1,6 @@
 ﻿using Vintagestory.API.Common;
 
-namespace VintageStoryAPI.Addons.CommandHandler.Common;
+namespace VintageStoryAPI.Addons.CommandHandler.Common.Models;
 
 internal class InvokeResult
 {

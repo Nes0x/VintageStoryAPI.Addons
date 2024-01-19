@@ -9,12 +9,13 @@ public abstract class DidBreakBlockEvent<TApi> : BaseEvent<TApi> where TApi : IC
     {
     }
 
-    public abstract void Handle( IServerPlayer byPlayer,
+    public abstract void Handle(IServerPlayer byPlayer,
         int oldBlockId,
         BlockSelection blockSelection);
 
     public override void Subscribe(IInstanceCreator instanceCreator, IServiceProvider provider)
     {
-        Api.Event.DidBreakBlock += (player, oldBlockId, blockSelection) => Execute(instanceCreator, provider, player, oldBlockId, blockSelection);
+        Api.Event.DidBreakBlock += (player, oldBlockId, blockSelection) =>
+            Execute(instanceCreator, provider, player, oldBlockId, blockSelection);
     }
 }

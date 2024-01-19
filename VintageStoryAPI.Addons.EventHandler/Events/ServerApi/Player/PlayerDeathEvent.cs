@@ -14,7 +14,6 @@ public abstract class PlayerDeathEvent<TApi> : BaseEvent<TApi> where TApi : ICor
 
     public override void Subscribe(IInstanceCreator instanceCreator, IServiceProvider provider)
     {
-        
         Api.Event.PlayerDeath += (player, damageSource) =>
             Execute(instanceCreator, provider, player, damageSource);
     }

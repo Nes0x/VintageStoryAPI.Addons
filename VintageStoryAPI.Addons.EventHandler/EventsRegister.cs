@@ -9,8 +9,8 @@ namespace VintageStoryAPI.Addons.EventHandler;
 
 public class EventsRegister<TApi> : IRegistrable where TApi : class, ICoreAPI
 {
-    private readonly IServiceProvider _provider;
     private readonly IInstanceCreator _instanceCreator;
+    private readonly IServiceProvider _provider;
 
     public EventsRegister(TApi api, IServiceProvider? provider = null)
     {
@@ -20,14 +20,13 @@ public class EventsRegister<TApi> : IRegistrable where TApi : class, ICoreAPI
 
     public void RegisterAll(Assembly assembly)
     {
-        if (_provider.GetService(typeof(TApi)) is null) throw new ArgumentNullException(typeof(TApi).Name, $"You must add {typeof(TApi).Name} to provider, to register events.");
-        
+        if (_provider.GetService(typeof(TApi)) is null)
+            throw new ArgumentNullException(typeof(TApi).Name,
+                $"You must add {typeof(TApi).Name} to provider, to register events.");
+
         var events = assembly
             .GetAllTypes<BaseEvent<TApi>>()
-            .Select(type => (BaseEvent<TApi>) _instanceCreator.Create(type, _provider)!);
-        foreach (var @event in events)
-        {
-            @event.Subscribe(_instanceCreator, _provider);
-        }
+            .Select(type => (BaseEvent<TApi>)_instanceCreator.Create(type, _provider)!);
+        foreach (var @event in events) @event.Subscribe(_instanceCreator, _provider);
     }
 }

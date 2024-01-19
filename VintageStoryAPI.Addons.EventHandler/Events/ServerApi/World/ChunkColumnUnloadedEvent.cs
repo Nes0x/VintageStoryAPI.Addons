@@ -14,7 +14,7 @@ public abstract class ChunkColumnUnloadedEvent<TApi> : BaseEvent<TApi> where TAp
 
     public override void Subscribe(IInstanceCreator instanceCreator, IServiceProvider provider)
     {
-        Api.Event.ChunkColumnUnloaded += (chunkCoordinates) =>
+        Api.Event.ChunkColumnUnloaded += chunkCoordinates =>
             Execute(instanceCreator, provider, chunkCoordinates);
     }
 }

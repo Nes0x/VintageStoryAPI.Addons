@@ -16,11 +16,11 @@ internal class InstanceFactory
     }
 
 
-    public TInstance Create<TInstance>(Type commandType, TextCommandCallingArgs context) where TInstance : class, IContext
+    public TInstance Create<TInstance>(Type commandType, TextCommandCallingArgs context)
+        where TInstance : class, IContext
     {
         var instance = (TInstance)_instanceCreator.Create(commandType, _provider)!;
         instance.Context = context;
         return instance;
     }
-
 }

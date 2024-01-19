@@ -20,12 +20,12 @@ public abstract class PlayerChatEvent<TApi> : BaseEvent<TApi> where TApi : ICore
     {
         Api.Event.PlayerChat += (
                 IServerPlayer player,
-        int channelId,
-        ref string message,
-        ref string data,
-        BoolRef consumed
-                ) =>
-                Execute(
+                int channelId,
+                ref string message,
+                ref string data,
+                BoolRef consumed
+            ) =>
+            Execute(
                 instanceCreator,
                 provider, player,
                 channelId,

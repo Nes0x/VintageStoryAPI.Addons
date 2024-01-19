@@ -13,6 +13,7 @@ public abstract class CanUseBlockEvent<TApi> : BaseEvent<TApi> where TApi : ICor
 
     public override void Subscribe(IInstanceCreator instanceCreator, IServiceProvider provider)
     {
-        Api.Event.CanUseBlock += (player, blockSelection) => (bool)Execute(instanceCreator, provider, player, blockSelection)!;
+        Api.Event.CanUseBlock += (player, blockSelection) =>
+            (bool)Execute(instanceCreator, provider, player, blockSelection)!;
     }
 }

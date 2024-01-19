@@ -1,5 +1,6 @@
 ﻿using Vintagestory.API.Common;
 using VintageStoryAPI.Addons.CommandHandler.Common;
+using VintageStoryAPI.Addons.CommandHandler.Common.Models;
 
 namespace VintageStoryAPI.Addons.CommandHandler.Invokers;
 
@@ -28,5 +29,4 @@ internal class InstanceInvoker : IInstanceInvoker
             };
         }
     }
-
 }

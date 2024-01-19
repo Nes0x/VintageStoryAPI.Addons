@@ -3,7 +3,9 @@ using Vintagestory.API.Client;
 using Vintagestory.API.Common;
 using Vintagestory.API.Server;
 using VintageStoryAPI.Addons.CommandHandler.Common;
+using VintageStoryAPI.Addons.CommandHandler.Common.Attributes;
 using VintageStoryAPI.Addons.CommandHandler.Common.CommandParameters;
+using VintageStoryAPI.Addons.CommandHandler.Common.Models;
 
 namespace ExampleMod.Modules.Commands;
 

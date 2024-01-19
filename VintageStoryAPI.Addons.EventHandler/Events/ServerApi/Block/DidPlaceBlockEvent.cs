@@ -18,7 +18,7 @@ public abstract class DidPlaceBlockEvent<TApi> : BaseEvent<TApi> where TApi : IC
     {
         Api.Event.DidPlaceBlock += (player,
             oldBlockId,
-             blockSelection,
+            blockSelection,
             withItemStack) => Execute(instanceCreator, provider, player, oldBlockId, blockSelection, withItemStack);
     }
 }

@@ -16,7 +16,7 @@ public abstract class BaseEvent<TApi> where TApi : ICoreAPI
     protected object? Execute(IInstanceCreator instanceCreator, IServiceProvider provider,
         params object[] arguments)
     {
-        var instance =  instanceCreator.Create(GetType(), provider);
+        var instance = instanceCreator.Create(GetType(), provider);
         return GetType().GetMethod("Handle")!.Invoke(instance, arguments);
     }
 }

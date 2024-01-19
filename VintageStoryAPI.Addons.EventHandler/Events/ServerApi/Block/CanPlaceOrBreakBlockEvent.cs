@@ -9,13 +9,13 @@ public abstract class CanPlaceOrBreakBlockEvent<TApi> : BaseEvent<TApi> where TA
     {
     }
 
-    public abstract bool Handle( IServerPlayer player,
+    public abstract bool Handle(IServerPlayer player,
         BlockSelection blockSelection,
         out string claimant);
 
     public override void Subscribe(IInstanceCreator instanceCreator, IServiceProvider provider)
     {
-        Api.Event.CanPlaceOrBreakBlock += ( IServerPlayer player,
+        Api.Event.CanPlaceOrBreakBlock += (IServerPlayer player,
             BlockSelection blockSelection,
             out string claimant) =>
         {

@@ -35,7 +35,7 @@ internal class CommandParametersParser : ICommandParametersParser
 
     private ICommandArgumentParser Parse(Attribute attribute)
     {
-        object?[] parameters = attribute.ReadProperties<RequiredParameterAttribute>().ToArray();
+        var parameters = attribute.ReadProperties<RequiredParameterAttribute>().ToArray();
         var methodName = GetMethodName(attribute);
         var arguments = _commandParametersValidator.IsOptional(attribute)
             ? parameters.Concat(attribute.ReadProperties<OptionalParameterAttribute>()).ToArray()

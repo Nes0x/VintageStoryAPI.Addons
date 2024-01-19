@@ -1,7 +1,7 @@
 ﻿using System.Reflection;
 using Vintagestory.API.Common;
 
-namespace VintageStoryAPI.Addons.CommandHandler.Common;
+namespace VintageStoryAPI.Addons.CommandHandler.Common.Models;
 
 internal class Command<TApi> where TApi : ICoreAPI
 {
