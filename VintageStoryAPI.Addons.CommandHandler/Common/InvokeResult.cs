@@ -2,7 +2,7 @@
 
 namespace VintageStoryAPI.Addons.CommandHandler.Common;
 
-internal class CommandInvokeResult
+internal class InvokeResult
 {
     public TextCommandResult? Result { get; init; }
     public bool IsError { get; init; }

@@ -2,8 +2,7 @@
 
 namespace VintageStoryAPI.Addons.CommandHandler.Common;
 
-public abstract class CommandModule
+public abstract class CommandModule : IContext
 {
-    #nullable disable
-    public TextCommandCallingArgs Context { get; internal set; }
+    public TextCommandCallingArgs Context { get; set; }
 }

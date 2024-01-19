@@ -2,52 +2,61 @@
 using Vintagestory.API.Common;
 using VintageStoryAPI.Addons.CommandHandler.Common;
 using VintageStoryAPI.Addons.CommandHandler.Extensions;
+using VintageStoryAPI.Addons.CommandHandler.Factories;
 using VintageStoryAPI.Addons.CommandHandler.Invokers;
 
 namespace VintageStoryAPI.Addons.CommandHandler.Builders;
 
-internal class ChatCommandBuilder<TApi> : IChatCommandBuilder<TApi> where TApi : ICoreAPI
+#nullable disable
+internal class ChatCommandBuilder<TApi> where TApi : ICoreAPI
 {
-    private readonly ICommandInvoker _commandInvoker;
+    private readonly ParsedInstanceFactory _parsedInstanceFactory;
+    private readonly IInstanceInvoker _instanceInvoker;
     private readonly string _commandErrorMessage;
     private readonly TApi _api;
-    private readonly IServiceProvider? _provider;
+    private IChatCommand _apiCommand;
 
-    public ChatCommandBuilder(ICommandInvoker commandInvoker, string commandErrorMessage, TApi api, IServiceProvider? provider)
+    public ChatCommandBuilder(ParsedInstanceFactory parsedInstanceFactory, IInstanceInvoker instanceInvoker, string commandErrorMessage, TApi api)
     {
-        _commandInvoker = commandInvoker;
+        _parsedInstanceFactory = parsedInstanceFactory;
+        _instanceInvoker = instanceInvoker;
         _commandErrorMessage = commandErrorMessage;
         _api = api;
-        _provider = provider;
+    }
+    
+    
+    public IChatCommand Build()
+    {
+        return _apiCommand;
     }
 
-    public IChatCommand Build(Command<TApi> command)
+    public ChatCommandBuilder<TApi> CreateWithName(string name)
     {
-        var apiCommand = _api.ChatCommands.Create(command.Properties.Name);
-        AddProperties(command, apiCommand);
-        if (command.PreConditions is not null) AddPreconditions(command, apiCommand);
-        if (command.SubCommands is not null) AddSubCommands(command, apiCommand);
-        return apiCommand;
+        _apiCommand = _api.ChatCommands.Create(name);
+        return this;
     }
 
-    private void AddPreconditions(Command<TApi> command, IChatCommand apiCommand)
+    public ChatCommandBuilder<TApi> AddPreConditions(IEnumerable<MethodInfo> preConditions)
     {
-        foreach (var commandPreCondition in command.PreConditions!)
-            apiCommand.WithPreCondition(args => Handle(commandPreCondition, args));
+        foreach (var commandPreCondition in preConditions)
+            _apiCommand.WithPreCondition(args => AddHandler<PreConditionAttribute<TApi>>(commandPreCondition, args));
+        return this;
     }
 
-    private void AddSubCommands(Command<TApi> command, IChatCommand apiCommand)
+    public ChatCommandBuilder<TApi> AddSubCommands(IEnumerable<Command<TApi>> subCommands)
     {
-        foreach (var subCommand in command.SubCommands!)
+        foreach (var subCommand in subCommands)
         {
-            var subApiCommand = apiCommand.BeginSubCommand(subCommand.Properties.Name);
+            var subApiCommand = _apiCommand.BeginSubCommand(subCommand.Properties.Name);
             AddProperties(subCommand, subApiCommand);
             subApiCommand.EndSubCommand();
         }
+        return this;
     }
     
-    private void AddProperties(Command<TApi> command, IChatCommand apiCommand)
+    public ChatCommandBuilder<TApi> AddProperties(Command<TApi> command, IChatCommand apiCommand = null)
     {
+        apiCommand ??= _apiCommand;
         var properties = command.Properties;
         apiCommand
             .WithNullableDescription(properties.Description)
@@ -58,15 +67,21 @@ internal class ChatCommandBuilder<TApi> : IChatCommandBuilder<TApi> where TApi :
             .RequiresNullablePlayer(properties.RequiredPlayer)
             .WithNullableArgs(command.Parameters)
             .RequiresNullablePrivilege(properties.Privilege)
-            .HandleWith(args => Handle(command.Handler, args));
-    }
-
-    private TextCommandResult Handle(MethodInfo handler, TextCommandCallingArgs args)
-    {
-        var result = _commandInvoker.Invoke(handler, args, _api, _provider);
-        return result.IsError
-            ? TextCommandResult.Error(string.Format(_commandErrorMessage, result.ErrorMessage))
-            : result.Result!;
+            .HandleWith(args => AddHandler<CommandModule>(command.Handler, args));
+        return this;
     }
     
+    
+    private TextCommandResult AddHandler<TInstance>(MethodInfo handler, TextCommandCallingArgs args) where
+        TInstance : class, IContext
+    {
+        
+        var result = _instanceInvoker.Invoke(_parsedInstanceFactory.Create<TInstance>(handler, args), _api);
+        return result.IsError
+            ? TextCommandResult.Error(string.Format(_commandErrorMessage, result.ErrorMessage))
+            : result.Result;
+    }
+    
+
+
 }
